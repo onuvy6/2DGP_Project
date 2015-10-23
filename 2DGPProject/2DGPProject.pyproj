@@ -30,8 +30,9 @@
     <Compile Include="2DGPProject.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="main_state.py" />
+    <Compile Include="game_state.py" />
     <Compile Include="logo_state.py" />
+    <Compile Include="tile.py" />
     <Compile Include="title_state.py" />
   </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
