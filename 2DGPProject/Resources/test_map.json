@@ -22,8 +22,120 @@
          "width":5,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":5,
+         "name":"Object Layer 1",
+         "objects":[
+                {
+                 "gid":70,
+                 "height":89,
+                 "id":29,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":65,
+                 "x":192,
+                 "y":154
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":5,
+         "name":"Object Layer 2",
+         "objects":[
+                {
+                 "gid":70,
+                 "height":89,
+                 "id":30,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":65,
+                 "x":191,
+                 "y":132
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":5,
+         "name":"Object Layer 3",
+         "objects":[
+                {
+                 "gid":70,
+                 "height":89,
+                 "id":31,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":65,
+                 "x":191,
+                 "y":110
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":5,
+         "name":"Object Layer 4",
+         "objects":[
+                {
+                 "gid":40,
+                 "height":89,
+                 "id":34,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":65,
+                 "x":191,
+                 "y":88
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":36,
  "orientation":"hexagonal",
  "properties":
     {
@@ -47,6 +159,23 @@
             },
          "spacing":0,
          "tilecount":35,
+         "tileheight":89,
+         "tilewidth":65,
+         "transparentcolor":"#000000"
+        }, 
+        {
+         "firstgid":36,
+         "image":"Resources/sheet.png",
+         "imageheight":1024,
+         "imagewidth":1024,
+         "margin":0,
+         "name":"sheet",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":165,
          "tileheight":89,
          "tilewidth":65,
          "transparentcolor":"#000000"
