@@ -1,6 +1,9 @@
 ﻿import json
 
-from pico2d import *
+#from pico2d import *
+import pico2d
+
+from sdl2 import *
 
 
 class Object:
@@ -67,6 +70,9 @@ class Terrain:
 
 
 class TileMap:
+    def __init__(self):
+        self.viewRect = False
+
     def get_tile_image_rect(self, gid):
 
         for tileset in self.tilesets:
@@ -117,22 +123,38 @@ class TileMap:
                 for x in reversed(range(layer.height)):
                     id = layer.data[y][x]
                     tileset = self.get_tileset_from_gid(id)
-                    tileset.image.clip_draw_to_origin(*self.get_tile_image_rect(id), x=(x)*tileset.tile_width + (y%2)*tileset.tile_width/2, y=(y)*tileset.tile_height/2)
+                    rx = (x)*tileset.tile_width + (y%2)*tileset.tile_width/2;
+                    ry = (y)*tileset.tile_height/2
+                    tileset.image.clip_draw_to_origin(*self.get_tile_image_rect(id), x=rx, y=ry)
+                    
+                    if self.viewRect:
+                        if id != 0:
+                            pico2d.draw_rectangle(rx , ry , rx + self.map_tilewidth, ry + self.map_tileheight)
         else:
             pass
 
 
     def draw_object_layer(self, layer):
-       # if layer.name == 'Object Layer 1':
-            for object in layer.objects:
-                gid = object.gid
-                tileset = self.get_tileset_from_gid(gid)
-                tileset.image.clip_draw_to_origin(*self.get_tile_image_rect(gid), x=object.x, y = ((self.map_height-1) * self.map_tileheight/2) + self.map_tileheight - object.y)
-                pass
+        for object in layer.objects:
+            gid = object.gid
+            tileset = self.get_tileset_from_gid(gid)
+            rx = object.x
+            ry = ((self.map_height-1) * self.map_tileheight/2) + self.map_tileheight - object.y
+            tileset.image.clip_draw_to_origin(*self.get_tile_image_rect(gid), x=rx, y = ry)
+            
+            if self.viewRect:
+                self.drawRect(rx , ry , rx + self.map_tilewidth, ry + self.map_tileheight)
+            pass
 
 
     def draw_image_layer(self, layer):
         pass
+
+
+    def drawRect(self, x1, y1, x2, y2):
+        SDL_SetRenderDrawColor(pico2d.renderer, 0, 0, 255, 255)
+        rect = SDL_Rect(int(x1),int(-y2+pico2d.canvas_height-1),int(x2-x1+1),int(y2-y1+1))
+        SDL_RenderDrawRect(pico2d.renderer, rect)
         
 
 def load_tile_map(name):
@@ -276,7 +298,7 @@ def load_tile_map(name):
             # Image used for tiles in this set
             image = _tileset.get('image')
 
-            tileset.image = load_image(image)
+            tileset.image = pico2d.load_image(image)
 
             # Name given to this tileset
             tileset.name = _tileset.get('name')

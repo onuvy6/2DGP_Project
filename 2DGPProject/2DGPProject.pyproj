@@ -32,6 +32,9 @@
     </Compile>
     <Compile Include="game_state.py" />
     <Compile Include="logo_state.py" />
+    <Compile Include="player.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tile.py" />
     <Compile Include="title_state.py" />
   </ItemGroup>
