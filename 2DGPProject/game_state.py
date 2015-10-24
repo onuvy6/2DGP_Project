@@ -39,5 +39,5 @@ def update():
 
 
 def draw():
-    background.clip_draw_to_origin(0, 0, 5, 5, 0, 0)
+    background.draw_all_layer(0, 0)
     update_canvas()

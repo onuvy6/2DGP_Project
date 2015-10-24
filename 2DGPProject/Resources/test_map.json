@@ -25,11 +25,11 @@
         }, 
         {
          "draworder":"topdown",
-         "height":5,
+         "height":0,
          "name":"Object Layer 1",
          "objects":[
                 {
-                 "gid":70,
+                 "gid":41,
                  "height":89,
                  "id":29,
                  "name":"",
@@ -47,17 +47,17 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":5,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":5,
+         "height":0,
          "name":"Object Layer 2",
          "objects":[
                 {
-                 "gid":70,
+                 "gid":41,
                  "height":89,
                  "id":30,
                  "name":"",
@@ -75,17 +75,17 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":5,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":5,
+         "height":0,
          "name":"Object Layer 3",
          "objects":[
                 {
-                 "gid":70,
+                 "gid":41,
                  "height":89,
                  "id":31,
                  "name":"",
@@ -103,17 +103,17 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":5,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":5,
+         "height":0,
          "name":"Object Layer 4",
          "objects":[
                 {
-                 "gid":40,
+                 "gid":25,
                  "height":89,
                  "id":34,
                  "name":"",
@@ -131,7 +131,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":5,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -158,16 +158,16 @@
 
             },
          "spacing":0,
-         "tilecount":35,
+         "tilecount":20,
          "tileheight":89,
          "tilewidth":65,
          "transparentcolor":"#000000"
         }, 
         {
-         "firstgid":36,
+         "firstgid":21,
          "image":"Resources/sheet.png",
-         "imageheight":1024,
-         "imagewidth":1024,
+         "imageheight":1068,
+         "imagewidth":520,
          "margin":0,
          "name":"sheet",
          "properties":
@@ -175,7 +175,7 @@
 
             },
          "spacing":0,
-         "tilecount":165,
+         "tilecount":96,
          "tileheight":89,
          "tilewidth":65,
          "transparentcolor":"#000000"
