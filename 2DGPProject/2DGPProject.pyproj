@@ -26,6 +26,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="game_framework.py" />
     <Compile Include="2DGPProject.py">
       <SubType>Code</SubType>

@@ -8,6 +8,7 @@ from pico2d import *
 
 import tile
 from player import Player
+from enemy import Enemy
 
 name = "GameState"
 
@@ -22,6 +23,9 @@ def enter():
     global map
     map = tile.load_tile_map('Resources/prototype_map.json')
     #map = tile.load_tile_map('Resources/test_map.json')
+
+    global enemys
+    enemys = [Enemy() for i in range(50)]
 
     global player
     player = Player()
@@ -60,6 +64,8 @@ def handle_events():
             elif event.key == SDLK_TAB:
                 map.viewRect = not map.viewRect
                 player.viewRect = not player.viewRect
+                for enemy in enemys:
+                    enemy.viewRect = not enemy.viewRect
                 
 
         elif event.type == SDL_KEYUP:
@@ -84,6 +90,8 @@ def update():
         elif player.state == PLAYER_LEFT:
             player.x -= 3
     player.update(map)
+    for enemy in enemys:
+        enemy.update()
     delay(0.01)
 
 
@@ -92,4 +100,6 @@ def draw():
     # background.draw(0, 0)
     map.draw_all_layer(0, 0)
     player.draw()
+    for enemy in enemys:
+        enemy.draw()
     update_canvas()
