@@ -38,6 +38,9 @@
     <Compile Include="player.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="terrorlight.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tile.py" />
     <Compile Include="title_state.py" />
   </ItemGroup>

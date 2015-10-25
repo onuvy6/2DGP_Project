@@ -1,4 +1,4 @@
-﻿import random
+import random
 
 #from pico2d import *
 import pico2d
@@ -8,12 +8,12 @@ from sdl2 import *
 
 ENEMY_DEFAULT, ENEMY_DOWN, ENEMY_LEFT_DOWN, ENEMY_RIGHT_DOWN, ENEMY_LEFT, ENEMY_RIGHT, ENEMY_UP, ENEMY_LEFT_UP, ENEMY_RIGHT_UP = 0, 1, 2, 3, 4, 5, 6, 7, 8
 
-class Enemy:
+class TerrorLight:
     image = None
 
     def __init__(self):
-        if Enemy.image == None:
-            Enemy.image = pico2d.load_image('Resources/cubchoo.png')
+        if TerrorLight.image == None:
+            TerrorLight.image = pico2d.load_image('Resources/terrorlight.png')
         self.x, self.y = random.randint(100, 900), random.randint(100, 800)
         self.frame = 0
         self.state = ENEMY_DEFAULT #random.randint(0, 8)
@@ -103,8 +103,8 @@ class Enemy:
 
     def draw(self):
         if self.viewRect:
-            self.drawRect(self.x - 26, self.y - 28, self.x + 26, self.y + 28)
-        self.image.clip_draw(self.frame * 26, self.image.h - ((self.state+1) * 28), 26, 28, self.x, self.y, 26 * 2, 28 * 2)
+            self.drawRect(self.x - 36, self.y - 30, self.x + 36, self.y + 30)
+        self.image.clip_draw(self.frame * 36, self.image.h - ((self.state+1) * 30), 36, 30, self.x, self.y, 36 * 2, 30 * 2)
 
 
     def drawRect(self, x1, y1, x2, y2):

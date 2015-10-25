@@ -9,6 +9,7 @@ from pico2d import *
 import tile
 from player import Player
 from enemy import Enemy
+from terrorlight import TerrorLight
 
 name = "GameState"
 
@@ -25,10 +26,19 @@ def enter():
     #map = tile.load_tile_map('Resources/test_map.json')
 
     global enemys
-    enemys = [Enemy() for i in range(50)]
+    enemys = [Enemy() for i in range(20)]
+
+    global terrorlights
+    terrorlights = [TerrorLight() for i in range(30)]
 
     global player
     player = Player()
+
+    global do_not_draw_enemy
+    do_not_draw_enemy = False
+
+    global do_not_draw_terrorlight
+    do_not_draw_terrorlight = True
 
     hide_lattice()
     
@@ -61,11 +71,20 @@ def handle_events():
             elif event.key == SDLK_DOWN:
                 player.state = PLAYER_DOWN
                 player.stop_animation = False
-            elif event.key == SDLK_TAB:
+            elif event.key == SDLK_v:
                 map.viewRect = not map.viewRect
                 player.viewRect = not player.viewRect
                 for enemy in enemys:
                     enemy.viewRect = not enemy.viewRect
+                for terrorlight in terrorlights:
+                    terrorlight.viewRect = not terrorlight.viewRect
+            elif event.key == SDLK_e:
+                global do_not_draw_enemy
+                do_not_draw_enemy = not do_not_draw_enemy
+            elif event.key == SDLK_t:
+                global do_not_draw_terrorlight
+                do_not_draw_terrorlight = not do_not_draw_terrorlight
+
                 
 
         elif event.type == SDL_KEYUP:
@@ -92,19 +111,35 @@ def update():
     player.update(map)
     player.collision = False
 
-    for enemy in enemys:
-        enemy.update()
-        # 충돌 검출
-        player_left, player_right = player.x - 23, player.x + 23
-        player_top, player_bottom = player.y + 35, player.y - 35
+    if not do_not_draw_enemy:
+        for enemy in enemys:
+            enemy.update()
+            # 충돌 검출
+            player_left, player_right = player.x - 23, player.x + 23
+            player_top, player_bottom = player.y + 35, player.y - 35
 
-        enemy_left, enemy_right = enemy.x - 26, enemy.x + 26
-        enemy_top, enemy_bottom = enemy.y + 28, enemy.y - 28 
+            enemy_left, enemy_right = enemy.x - 26, enemy.x + 26
+            enemy_top, enemy_bottom = enemy.y + 28, enemy.y - 28 
         
-        enemy.collision = False
+            enemy.collision = False
 
-        if ((player_left <= enemy_right) and (player_top > enemy_bottom) and (player_right >= enemy_left) and (player_bottom < enemy_top)):
-            player.collision, enemy.collision = True, True
+            if ((player_left <= enemy_right) and (player_top > enemy_bottom) and (player_right >= enemy_left) and (player_bottom < enemy_top)):
+                player.collision, enemy.collision = True, True
+
+    if not do_not_draw_terrorlight:
+        for terrorlight in terrorlights:
+            terrorlight.update()
+            # 충돌 검출
+            player_left, player_right = player.x - 23, player.x + 23
+            player_top, player_bottom = player.y + 35, player.y - 35
+
+            terrorlight_left, terrorlight_right = terrorlight.x - 36, terrorlight.x + 36
+            terrorlight_top, terrorlight_bottom = terrorlight.y + 30, terrorlight.y - 30 
+        
+            terrorlight.collision = False
+
+            if ((player_left <= terrorlight_right) and (player_top > terrorlight_bottom) and (player_right >= terrorlight_left) and (player_bottom < terrorlight_top)):
+                player.collision, terrorlight.collision = True, True
 
     delay(0.01)
 
@@ -114,6 +149,11 @@ def draw():
     # background.draw(0, 0)
     map.draw_all_layer(0, 0)
     player.draw()
-    for enemy in enemys:
-        enemy.draw()
+    if not do_not_draw_enemy:
+        for enemy in enemys:
+            enemy.draw()
+
+    if not do_not_draw_terrorlight:
+        for terrorlight in terrorlights:
+            terrorlight.draw()
     update_canvas()
