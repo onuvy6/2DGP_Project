@@ -90,8 +90,22 @@ def update():
         elif player.state == PLAYER_LEFT:
             player.x -= 3
     player.update(map)
+    player.collision = False
+
     for enemy in enemys:
         enemy.update()
+        # 충돌 검출
+        player_left, player_right = player.x - 23, player.x + 23
+        player_top, player_bottom = player.y + 35, player.y - 35
+
+        enemy_left, enemy_right = enemy.x - 26, enemy.x + 26
+        enemy_top, enemy_bottom = enemy.y + 28, enemy.y - 28 
+        
+        enemy.collision = False
+
+        if ((player_left <= enemy_right) and (player_top > enemy_bottom) and (player_right >= enemy_left) and (player_bottom < enemy_top)):
+            player.collision, enemy.collision = True, True
+
     delay(0.01)
 
 

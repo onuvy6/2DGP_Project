@@ -19,6 +19,7 @@ class Player:
         self.state = PLAYER_DEFAULT
         self.stop_animation = True
         self.viewRect = False
+        self.collision = False
 
     
     def update(self, map):
@@ -34,7 +35,10 @@ class Player:
         self.image.clip_draw(self.frame * 23, self.image.h - ((self.state+1) * 35), 23, 35, self.x, self.y, 23 * 2, 35 * 2)
 
     def drawRect(self, x1, y1, x2, y2):
-        SDL_SetRenderDrawColor(pico2d.renderer, 0, 255, 0, 255)
+        if self.collision:
+            SDL_SetRenderDrawColor(pico2d.renderer, 255, 0, 0, 255)
+        else:
+            SDL_SetRenderDrawColor(pico2d.renderer, 0, 255, 0, 255)
         rect = SDL_Rect(int(x1),int(-y2+pico2d.canvas_height-1),int(x2-x1+1),int(y2-y1+1))
         SDL_RenderDrawRect(pico2d.renderer, rect)
 

@@ -1,4 +1,4 @@
-import random
+﻿import random
 
 #from pico2d import *
 import pico2d
@@ -20,6 +20,7 @@ class Enemy:
         self.stop_animation = False
         self.viewRect = False
         self.wait_frame = random.randint(10, 30)
+        self.collision = False
 
     
     def update(self):
@@ -101,7 +102,10 @@ class Enemy:
 
 
     def drawRect(self, x1, y1, x2, y2):
-        SDL_SetRenderDrawColor(pico2d.renderer, 255, 127, 0, 255)
+        if self.collision:
+            SDL_SetRenderDrawColor(pico2d.renderer, 255, 0, 0, 255)
+        else:
+            SDL_SetRenderDrawColor(pico2d.renderer, 255, 255, 0, 255)
         rect = SDL_Rect(int(x1),int(-y2+pico2d.canvas_height-1),int(x2-x1+1),int(y2-y1+1))
         SDL_RenderDrawRect(pico2d.renderer, rect)
 
