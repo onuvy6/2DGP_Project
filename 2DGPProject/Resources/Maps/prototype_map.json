@@ -745,7 +745,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"Resources/fullTiles.png",
+         "image":"Resources\/Tiles\/fullTiles.png",
          "imageheight":445,
          "imagewidth":260,
          "margin":0,
@@ -762,7 +762,7 @@
         }, 
         {
          "firstgid":21,
-         "image":"Resources/sheet.png",
+         "image":"Resources\/Tiles\/sheet.png",
          "imageheight":1068,
          "imagewidth":520,
          "margin":0,

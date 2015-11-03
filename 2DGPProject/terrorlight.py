@@ -1,4 +1,4 @@
-import random
+﻿import random
 
 #from pico2d import *
 import pico2d
@@ -13,7 +13,7 @@ class TerrorLight:
 
     def __init__(self):
         if TerrorLight.image == None:
-            TerrorLight.image = pico2d.load_image('Resources/terrorlight.png')
+            TerrorLight.image = pico2d.load_image('Resources/Sprites/terrorlight.png')
         self.x, self.y = random.randint(100, 900), random.randint(100, 800)
         self.frame = 0
         self.state = ENEMY_DEFAULT #random.randint(0, 8)

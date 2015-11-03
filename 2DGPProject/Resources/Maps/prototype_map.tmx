@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="hexagonal" renderorder="right-down" width="15" height="15" tilewidth="65" tileheight="89" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="76">
  <tileset firstgid="1" name="fullTiles" tilewidth="65" tileheight="89" tilecount="20">
-  <image source="Resources/fullTiles.png" trans="000000" width="260" height="445"/>
+  <image source="../Tiles/fullTiles.png" trans="000000" width="260" height="445"/>
  </tileset>
  <tileset firstgid="21" name="sheet" tilewidth="65" tileheight="89" tilecount="96">
-  <image source="Resources/sheet.png" trans="000000" width="520" height="1068"/>
+  <image source="../Tiles/sheet.png" trans="000000" width="520" height="1068"/>
  </tileset>
  <layer name="Tile Layer 1" width="15" height="15">
   <data>

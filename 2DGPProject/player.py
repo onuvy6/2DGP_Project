@@ -13,7 +13,7 @@ class Player:
 
     def __init__(self):
         if Player.image == None:
-            Player.image = pico2d.load_image('Resources/55313.png')
+            Player.image = pico2d.load_image('Resources/Sprites/55313.png')
         self.x, self.y = 100, 100
         self.frame = 0
         self.state = PLAYER_DEFAULT

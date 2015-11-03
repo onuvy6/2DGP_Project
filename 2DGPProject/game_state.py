@@ -22,7 +22,7 @@ def enter():
     global background
     # background = load_image('Resources/background.png')
     global map
-    map = tile.load_tile_map('Resources/prototype_map.json')
+    map = tile.load_tile_map('Resources/Maps/prototype_map.json')
     #map = tile.load_tile_map('Resources/test_map.json')
 
     global enemys

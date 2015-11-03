@@ -13,7 +13,7 @@ class Enemy:
 
     def __init__(self):
         if Enemy.image == None:
-            Enemy.image = pico2d.load_image('Resources/cubchoo.png')
+            Enemy.image = pico2d.load_image('Resources/Sprites/cubchoo.png')
         self.x, self.y = random.randint(100, 900), random.randint(100, 800)
         self.frame = 0
         self.state = ENEMY_DEFAULT #random.randint(0, 8)
