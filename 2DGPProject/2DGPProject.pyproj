@@ -35,13 +35,19 @@
     </Compile>
     <Compile Include="game_state.py" />
     <Compile Include="logo_state.py" />
+    <Compile Include="pico2d_extension.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="player.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="terrorlight.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tile.py" />
+    <Compile Include="tile_loader.py" />
+    <Compile Include="tile_data.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="title_state.py" />
   </ItemGroup>
   <ItemGroup>

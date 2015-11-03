@@ -6,7 +6,7 @@ import game_framework
 from pico2d import *
 
 
-import tile
+import tile_loader
 from player import Player
 from enemy import Enemy
 from terrorlight import TerrorLight
@@ -22,8 +22,8 @@ def enter():
     global background
     # background = load_image('Resources/background.png')
     global map
-    map = tile.load_tile_map('Resources/Maps/prototype_map.json')
-    #map = tile.load_tile_map('Resources/test_map.json')
+    map = tile_loader.load_tile_map('Resources/Maps/prototype_map.json')
+    #map = tile_loader.load_tile_map('Resources/test_map.json')
 
     global enemys
     enemys = [Enemy() for i in range(20)]
