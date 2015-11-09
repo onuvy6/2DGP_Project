@@ -1,4 +1,4 @@
-
+ï»¿
 class Object:
     def __init__(self):
         self.id = 0
@@ -111,7 +111,7 @@ class TileMap:
         elif self.map_orientation == 'isometric':
             pass
         elif self.map_orientation == 'hexagonal':
-            # TODO: Render-Order¿¡ ¸Â°Ô µ¿ÀÛÇÏµµ·Ï ¼öÁ¤ ÇÊ¿ä.
+            # TODO: Render-Orderï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½.
              for y in reversed(range(layer.width)):
                 for x in reversed(range(layer.height)):
                     id = layer.data[y][x]
