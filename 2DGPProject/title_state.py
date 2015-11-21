@@ -11,13 +11,19 @@ image = None
 map = None
 
 def enter():
+    global image
+    image = load_image('Resources/States/Background_01.png')
+
     global map
-    map = map_loader.load_map('Resources/Maps/prototype_map.json')
+    #map = map_loader.load_map('Resources/Maps/prototype_map.json')
 
 
 def exit():
     global map
     del (map)
+
+    global image
+    del (image)
 
 
 def update():
@@ -26,8 +32,9 @@ def update():
 
 def draw():
     clear_canvas()
-    draw_rectangle(0, 0, 100, 100, 255, 0, 0)
-    map.draw();
+    image.draw(320, 480)
+    draw_hexagon(100, 100, 85, 90, 0, 0, 0)
+    #map.draw();
     update_canvas()
 
 
