@@ -26,58 +26,37 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="enemy.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="game_framework.py" />
     <Compile Include="2DGPProject.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="game_state.py" />
-    <Compile Include="logo_state.py" />
+    <Compile Include="game_framework.py" />
+    <Compile Include="game_state.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="layer_data.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="logo_state.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="map_data.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="map_loader.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="object_data.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pico2d_extension.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="player.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="terrorlight.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="tile_loader.py" />
     <Compile Include="tile_data.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="title_state.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Resources\Maps\" />
-    <Folder Include="Resources\Sprites\" />
-    <Folder Include="Resources\States\" />
-    <Folder Include="Resources\Tiles\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Maps\prototype_map.json" />
-    <Content Include="Resources\Maps\prototype_map.tmx" />
-    <Content Include="Resources\Maps\test_map.json" />
-    <Content Include="Resources\Maps\test_map.tmx" />
-    <Content Include="Resources\Sprites\55313.png" />
-    <Content Include="Resources\Sprites\55314.png" />
-    <Content Include="Resources\Sprites\aliens.png" />
-    <Content Include="Resources\Sprites\aliens.xml" />
-    <Content Include="Resources\Sprites\cubchoo.png" />
-    <Content Include="Resources\Sprites\terrorlight.png" />
-    <Content Include="Resources\States\kpu_credit.png" />
-    <Content Include="Resources\States\title.png" />
-    <Content Include="Resources\Tiles\details.png" />
-    <Content Include="Resources\Tiles\details.xml" />
-    <Content Include="Resources\Tiles\fullTiles.png" />
-    <Content Include="Resources\Tiles\fullTiles.xml" />
-    <Content Include="Resources\Tiles\sheet.png" />
-    <Content Include="Resources\Tiles\sheet.xml" />
-    <Content Include="Resources\Tiles\topTiles.png" />
-    <Content Include="Resources\Tiles\topTiles.xml" />
+    <Compile Include="title_state.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
   <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

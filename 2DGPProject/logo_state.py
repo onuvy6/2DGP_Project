@@ -1,53 +1,48 @@
 ﻿import game_framework
+import title_state
+
 from pico2d import *
 
-import title_state
 
 name = "LogoState"
 image = None
 logo_time = 0.0
 
-
 def enter():
     global image
-    open_canvas()
+    open_canvas(1024, 960)
     image = load_image('Resources/States/kpu_credit.png')
 
 
 def exit():
-    global image
-    del(image)
-    close_canvas()
+     global image
+     del (image)
+     close_canvas()
 
 
 def update():
     global logo_time
-    
     if (logo_time > 1.0):
-        logo_time = 0
-        #game_framework.quit()
+        logo_time = 0.0
         game_framework.push_state(title_state)
-    delay(0.01)
     logo_time += 0.01
+    delay(0.01)
 
 
 def draw():
     global image
     clear_canvas()
-    image.draw(400, 300)
+    image.draw(240, 320)
     update_canvas()
 
 
 def handle_events():
-    events = get_events()
     pass
 
 
-def pause(): pass
+def pause():
+    pass
 
 
-def resume(): pass
-
-
-
-
+def resume():
+    pass
