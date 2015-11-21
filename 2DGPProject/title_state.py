@@ -1,4 +1,4 @@
-import game_framework
+﻿import game_framework
 import game_state
 import map_loader
 
@@ -15,7 +15,7 @@ def enter():
     image = load_image('Resources/States/Background_01.png')
 
     global map
-    #map = map_loader.load_map('Resources/Maps/prototype_map.json')
+    map = map_loader.load_map('Resources/Maps/Level_01.json')
 
 
 def exit():
@@ -33,8 +33,8 @@ def update():
 def draw():
     clear_canvas()
     image.draw(320, 480)
-    draw_hexagon(100, 100, 85, 90, 0, 0, 0)
-    #map.draw();
+    #draw_hexagon(100, 100, 85, 90, 0, 0, 0)
+    map.draw(640, 960);
     update_canvas()
 
 

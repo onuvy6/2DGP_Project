@@ -10,6 +10,9 @@
         # Map grid height.
         self.tileheight = 0
 
+        self.mapwidth = 0
+        self.mapheight = 0
+
         # Orthogonal, isometric, or staggered
         self.orientation = ''
 
@@ -28,8 +31,10 @@
 
 
     def to_tileset(self, gid):
+        id = gid
         for tileset in self.tilesets:
-            if tileset.tilecount < gid:
+            if tileset.tilecount < id:
+                id -= tileset.tilecount
                 continue
             return tileset
         return None
@@ -51,17 +56,17 @@
                 tileset.tileheight)
 
 
-    def draw(self):
+    def draw(self, w, h):
         draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
             'objectgroup'   : self.draw_object_layer,
             'imagelayer'    : self.draw_image_layer
         }
         for layer in self.layers:
-            draw_layer_type[layer.type](layer)
+            draw_layer_type[layer.type](w, h, layer)
 
 
-    def draw_tile_layer(self, layer):
+    def draw_tile_layer(self, w, h, layer):
         if self.orientation == 'orthogonal':
             pass
 
@@ -72,24 +77,27 @@
             for y in reversed(range(layer.height)):
                 for x in reversed(range(layer.width)):
                     gid = layer.data[y][x]
+                    if gid is 0:
+                        continue
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
                         _x = (x) * tileset.tilewidth + (y % 2) * (tileset.tilewidth // 2)
                         _y = (y) * (tileset.tileheight // 2)
-                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=_x, y=_y)
+                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)
         else:
             pass
 
 
-    def draw_object_layer(self, layer):
+    def draw_object_layer(self, w, h, layer):
         for object in layer.objects:
             gid = object.gid
             tileset = self.to_tileset(gid)
-            _x = object.x
-            _y = tileset.tileheight + ((self.height - 1) * (tileset.tileheight // 2)) - object.y
-            tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=_x, y=_y)
+            if tileset is not None:
+                _x = object.x
+                _y = ((self.height - 1) * (tileset.tileheight // 2)) - object.y
+                tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)
 
 
-    def draw_image_layer(self, layer):
+    def draw_image_layer(self, w, h, layer):
         pass
 

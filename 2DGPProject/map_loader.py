@@ -25,6 +25,9 @@ def load_map(name):
         # Map grid height.
         map_data.tileheight = data.get('tileheight')
 
+        map_data.mapwidth = map_data.width * map_data.tilewidth
+        map_data.mapheight = map_data.height * map_data.tileheight
+
         # Orthogonal, isometric, or staggered
         map_data.orientation = data.get('orientation')
         
@@ -133,28 +136,29 @@ def load_map(name):
 
                 # GID corresponding to the first tile in the set
                 tileset_data.firstgid = tileset.get('firstgid')
-
-                # Image used for tiles in this set
-                image = tileset.get('image')
-                tileset_data.image = pico2d.load_image(image)
-
-                # Name given to this tileset
-                tileset_data.name = tileset.get('name')
+                
+                # Width of source image in pixels
+                tileset_data.imagewidth = tileset.get('imagewidth')
+                # Height of source image in pixels
+                tileset_data.imageheight = tileset.get('imageheight')
 
                 # Maximum width of tiles in this set
                 tileset_data.tilewidth = tileset.get('tilewidth')
                 # Maximum height of tiles in this set
                 tileset_data.tileheight = tileset.get('tileheight')
 
-                # Width of source image in pixels
-                tileset_data.imagewidth = tileset.get('imagewidth')
-                # Height of source image in pixels
-                tileset_data.imageheight = tileset.get('imageheight')
-
-                tileset_data.tilecols = tileset_data.imagewidth // tileset_data.tilewidth
-                tileset_data.tilerows = tileset_data.imageheight // tileset_data.tileheight
-
                 tileset_data.tilecount = tileset.get('tilecount')
+
+                # Image used for tiles in this set
+                image = tileset.get('image')
+                if image is not None:
+                    tileset_data.image = pico2d.load_image(image)
+
+                    tileset_data.tilecols = tileset_data.imagewidth // tileset_data.tilewidth
+                    tileset_data.tilerows = tileset_data.imageheight // tileset_data.tileheight
+
+                # Name given to this tileset
+                tileset_data.name = tileset.get('name')
 
                 # Buffer between image edge and first tile (pixels)
                 tileset_data.margin = tileset.get('margin')
@@ -185,12 +189,12 @@ def load_map(name):
                 # Gid-indexed Tiles (optional)
                 tiles = tileset.get('tiles');
                 if tiles is not None:
-                    for tile in tiles:
+                    for i in range(tileset_data.tilecount):
                         tile_data = TileData()
 
                         # index of terrain for each corner of tile
-                        tile_data.terrain = tile.get('terrain')
-
+                        #tile_data.terrain = tile.get('terrain')
+                        
                         tileset_data.tiles.append(tile_data)
 
                 ######################################################################
