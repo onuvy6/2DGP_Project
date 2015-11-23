@@ -17,8 +17,8 @@ class CharacterData(object):
 
     def __init__(self):
         self.name = ''
-        self.x = 100
-        self.y = 100
+        self.x = 0
+        self.y = 0
         self.frame = 0
         self.frame_stop = False
         self.state = CharacterData.CHARACTER_STATE_WAIT

@@ -13,6 +13,9 @@ class Finn(CharacterData):
         #super(CharacterData, self).__init__()
         self.load('Resources/Sprites/Finn.json')
         
+        self.x = 320
+        self.y = 480
+
         if Finn.image is None:
             Finn.image = pico2d.load_image(self.name)
 

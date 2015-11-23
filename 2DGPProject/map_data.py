@@ -75,9 +75,22 @@ class MapData:
     def update(self):
         pass
 
+    
+    def get_hexagon_index_from_point(self, x, y):
 
-    def get_hexagon_from_point(self, x, y):
+        _y = (y) // (self.tileheight // 2)
+        
+        for _x in range(self.width):
+            hx = _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
+            hy = _y * (self.tileheight // 2)
+            if collision.point_in_rect(x,y,hx,hy,self.tilewidth,self.tileheight):
+                return (int(_x), int(_y))
+        
+        return (-1, -1)
 
+
+    def get_hexagon_point_from_point(self, x, y):
+        
         _y = (y) // (self.tileheight // 2)
         
         for _x in range(self.width):
@@ -87,7 +100,7 @@ class MapData:
                 return (hx, hy)
         
         return (-1, -1)
-
+        
 
     def draw(self):
         draw_layer_type = {
@@ -146,5 +159,5 @@ class MapData:
 
 
     def draw_hexagon_on_point(self,x,y):
-        point = self.get_hexagon_from_point(x,y)
+        point = self.get_hexagon_point_from_point(x,y)
         self.draw_hexagon(*point)

@@ -38,8 +38,31 @@ def get_intersect_rect(o1_left,o1_bottom,o1_right,o1_top,o2_left,o2_bottom,o2_ri
 
 def collision_map_and_character(map, character):
     for layer in map.layers:
+        if layer.type == 'tilelayer':
+            hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
+
+            x, y = hexagon_index
+
+            if layer.data[y][x] == 0:
+                character_rect = character.to_rect()
+    
+                character_width = character_rect[2] - character_rect[0]
+                character_height = character_rect[3] - character_rect[1]
+                      
+                if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
+                    character.x += 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
+                    character.x -= 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
+                    character.y -= 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+                    character.y += 3
+
+                character.frame_stop = True
+
+
         # objectgroup
-        if layer.type == 'objectgroup':
+        elif layer.type == 'objectgroup':
             for object in layer.objects:
                 object_rect = map.to_object_rect(object)
                 character_rect = character.to_rect()
