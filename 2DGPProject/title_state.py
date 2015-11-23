@@ -18,7 +18,7 @@ def enter():
     image = load_image('Resources/States/Background_01.png')
 
     global map
-    map = map_loader.load_map('Resources/Maps/Level_01.json')
+    map = map_loader.load_map('Resources/Maps/Level_02.json')
 
     global finn
     finn = finn_character.Finn()

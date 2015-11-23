@@ -26,8 +26,8 @@ def collision_map_and_character(map, character):
             hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
 
             x, y = hexagon_index
-
-            if layer.data[y][x] == 0:
+            
+            if (x < 0 or x >= map.width) or (y < 0 or y >= map.height) or layer.data[y][x] == 0:
                 character_rect = character.to_rect()
     
                 character_width = character_rect[2] - character_rect[0]

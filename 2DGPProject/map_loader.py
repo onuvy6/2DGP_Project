@@ -1,5 +1,6 @@
 ﻿import json
 import pico2d
+import game_framework
 
 from map_data       import *
 from layer_data     import *
@@ -26,7 +27,10 @@ def load_map(name):
         map_data.tileheight = data.get('tileheight')
 
         map_data.mapwidth = map_data.width * map_data.tilewidth
-        map_data.mapheight = map_data.height * map_data.tileheight
+        map_data.mapheight = map_data.height * (map_data.tileheight // 2)
+
+        map_data.mapoffsetx = (game_framework.width - map_data.mapwidth) // 2
+        map_data.mapoffsety = (game_framework.height - map_data.mapheight) // 2
 
         # Orthogonal, isometric, or staggered
         map_data.orientation = data.get('orientation')

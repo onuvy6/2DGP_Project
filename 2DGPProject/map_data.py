@@ -19,6 +19,9 @@ class MapData:
         self.mapwidth = 0
         self.mapheight = 0
 
+        self.mapoffsetx = 0
+        self.mapoffsety = 0
+
         # Orthogonal, isometric, or staggered
         self.orientation = ''
 
@@ -72,7 +75,7 @@ class MapData:
         gid = object.gid
         tileset = self.to_tileset(gid)
         
-        object_y = game_framework.height - object.y
+        object_y = self.mapoffsety + self.mapheight - object.y
 
         return object.x - (tileset.tilewidth // 2), object_y - (tileset.tileheight // 2), \
                object.x + (tileset.tilewidth // 2), object_y + (tileset.tileheight // 2)
@@ -84,11 +87,11 @@ class MapData:
     
     def get_hexagon_index_from_point(self, x, y):
 
-        _y = (y) // (self.tileheight // 2)
+        _y = (y - self.mapoffsety) // (self.tileheight // 2)
         
         for _x in range(self.width):
-            hx = _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
-            hy = _y * (self.tileheight // 2)
+            hx = self.mapoffsetx + _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
+            hy = self.mapoffsety + _y * (self.tileheight // 2)
             if collision.point_in_rect(x,y,hx,hy,self.tilewidth,self.tileheight):
                 return (int(_x), int(_y))
         
@@ -97,11 +100,11 @@ class MapData:
 
     def get_hexagon_point_from_point(self, x, y):
         
-        _y = (y) // (self.tileheight // 2)
+        _y = (y - self.mapoffsety) // (self.tileheight // 2)
         
         for _x in range(self.width):
-            hx = _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
-            hy = _y * (self.tileheight // 2)
+            hx = self.mapoffsetx + _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
+            hy = self.mapoffsety + _y * (self.tileheight // 2)
             if collision.point_in_rect(x,y,hx,hy,self.tilewidth,self.tileheight):
                 return (hx, hy)
         
@@ -135,9 +138,9 @@ class MapData:
                         continue
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
-                        _x = (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
-                        _y = (y) * (tileset.tileheight // 2)
-                        tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)   
+                        _x = self.mapoffsetx + (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
+                        _y = self.mapoffsety + (y) * (tileset.tileheight // 2)
+                        tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)   
         else:
             pass
 
@@ -148,9 +151,9 @@ class MapData:
             gid = object.gid
             tileset = self.to_tileset(gid)
             if tileset is not None:
-                _x = object.x
-                _y = game_framework.height - object.y
-                tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)
+                _x = self.mapoffsetx + object.x
+                _y = game_framework.height - self.mapoffsety - object.y
+                tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)
                 pico2d_extension.draw_rectangle(_x - tileset.tilewidth // 2, _y - tileset.tileheight // 2, _x + tileset.tilewidth // 2, _y + tileset.tileheight // 2)
 
 
