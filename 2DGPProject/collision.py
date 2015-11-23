@@ -59,39 +59,40 @@ def collision_map_and_character(map, character):
 
         # objectgroup
         elif layer.type == 'objectgroup':
-            for object in layer.objects:
-                object_rect = map.to_object_rect(object)
-                character_rect = character.to_rect()
+            if layer.name == 'Object Layer 1':
+                for object in layer.objects:
+                    object_rect = map.to_object_rect(object)
+                    character_rect = character.to_rect()
 
-                if rect_in_rect(*(object_rect + character_rect)):
+                    if rect_in_rect(*(object_rect + character_rect)):
 
-                    character_width = character_rect[2] - character_rect[0]
-                    character_height = character_rect[3] - character_rect[1]
+                        character_width = character_rect[2] - character_rect[0]
+                        character_height = character_rect[3] - character_rect[1]
                       
-                    if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
-                        character.x = object_rect[2] + (character_width // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                        character.x = object_rect[0] - (character_width // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
-                        character.y = object_rect[1] - (character_height // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
-                        character.x = object_rect[2] + (character_width // 2 + 1)
-                        character.y = object_rect[1] - (character_height // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
-                        character.x = object_rect[0] - (character_width // 2 + 1)
-                        character.y = object_rect[1] - (character_height // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
-                        character.y = object_rect[3] + (character_height // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
-                        character.x = object_rect[2] + (character_width // 2 + 1)
-                        character.y = object_rect[3] + (character_height // 2 + 1)
-                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
-                        character.x = object_rect[0] - (character_width // 2 + 1)
-                        character.y = object_rect[3] + (character_height // 2 + 1)
+                        if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
+                            character.x = object_rect[2] + (character_width // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
+                            character.x = object_rect[0] - (character_width // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
+                            character.y = object_rect[1] - (character_height // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+                            character.x = object_rect[2] + (character_width // 2 + 1)
+                            character.y = object_rect[1] - (character_height // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+                            character.x = object_rect[0] - (character_width // 2 + 1)
+                            character.y = object_rect[1] - (character_height // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+                            character.y = object_rect[3] + (character_height // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+                            character.x = object_rect[2] + (character_width // 2 + 1)
+                            character.y = object_rect[3] + (character_height // 2 + 1)
+                        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+                            character.x = object_rect[0] - (character_width // 2 + 1)
+                            character.y = object_rect[3] + (character_height // 2 + 1)
 
-                    character.frame_stop = True
+                        character.frame_stop = True
 
-                    break
+                        break
 
 
 def collision_character_and_character(character1, character2):

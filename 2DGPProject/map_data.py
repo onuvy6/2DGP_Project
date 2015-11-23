@@ -35,6 +35,12 @@ class MapData:
         # Auto-increments for each placed object
         self.nextobjectid = 0
 
+        self.draw_layer_type = {
+            'tilelayer'     : self.draw_tile_layer,
+            'objectgroup'   : self.draw_object_layer,
+            'imagelayer'    : self.draw_image_layer
+        }
+
 
     def to_tileset(self, gid):
         id = gid
@@ -102,17 +108,16 @@ class MapData:
         return (-1, -1)
         
 
-    def draw(self):
-        draw_layer_type = {
-            'tilelayer'     : self.draw_tile_layer,
-            'objectgroup'   : self.draw_object_layer,
-            'imagelayer'    : self.draw_image_layer
-        }
+    def draw_low(self):
         for layer in self.layers:
-            draw_layer_type[layer.type](layer)
+            if layer.type == 'tilelayer' or layer.name == 'Object Layer 1':
+                self.draw_layer_type[layer.type](layer)
         
-        # DO NOT USE
-        #self.draw_grid()
+
+    def draw_high(self):
+        for layer in self.layers:
+            if layer.type == 'objectgroup' and layer.name != 'Object Layer 1':
+                self.draw_layer_type[layer.type](layer)
 
 
     def draw_tile_layer(self, layer):
@@ -144,7 +149,7 @@ class MapData:
             tileset = self.to_tileset(gid)
             if tileset is not None:
                 _x = object.x
-                _y = game_framework.height - object.y
+                _y = self.mapheight - object.y
                 tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)
                 pico2d_extension.draw_rectangle(_x - tileset.tilewidth // 2, _y - tileset.tileheight // 2, _x + tileset.tilewidth // 2, _y + tileset.tileheight // 2)
 

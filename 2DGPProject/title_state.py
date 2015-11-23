@@ -33,19 +33,17 @@ def exit():
     del (map)
 
     del (finn)
-    del (cubchoo)
+    del (cubchooes)
 
 
 def update():
+
     finn.update()
-
-    for cubchoo in cubchooes:
-        cubchoo.update()
-
     collision.collision_map_and_character(map, finn)
 
     for cubchoo in cubchooes:
-        collision.collision_map_and_character(map, cubchoo)
+        cubchoo.update()
+        collision.collision_map_and_character(map, cubchoo)        
     
 
 def draw():
@@ -53,13 +51,15 @@ def draw():
 
     image.draw(game_framework.width//2, game_framework.height//2)
 
-    map.draw();
+    map.draw_low()
     map.draw_hexagon_on_point(finn.x, finn.y)
 
     finn.draw()
 
     for cubchoo in cubchooes:
         cubchoo.draw()
+
+    map.draw_high()
 
     update_canvas()
 

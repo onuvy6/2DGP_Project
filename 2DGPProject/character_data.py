@@ -24,6 +24,18 @@ class CharacterData(object):
         self.state = CharacterData.CHARACTER_STATE_WAIT
         self.animations = []
         
+        self.character_state_type = {
+            CharacterData.CHARACTER_STATE_WAIT : self.character_state_wait,
+            CharacterData.CHARACTER_STATE_WALK_DOWN : self.character_state_walk_down,
+            CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT : self.character_state_walk_down_left,
+            CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT : self.character_state_walk_down_right,
+            CharacterData.CHARACTER_STATE_WALK_LEFT : self.character_state_walk_left,
+            CharacterData.CHARACTER_STATE_WALK_RIGHT : self.character_state_walk_right,
+            CharacterData.CHARACTER_STATE_WALK_UP : self.character_state_walk_up,
+            CharacterData.CHARACTER_STATE_WALK_UP_LEFT : self.character_state_walk_up_left,
+            CharacterData.CHARACTER_STATE_WALK_UP_RIGHT : self.character_state_walk_up_right,
+        }
+        
 
     def load(self, name):
         with open(name) as f:
@@ -58,6 +70,47 @@ class CharacterData(object):
     def update(self):
         if self.frame_stop == False:
             self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
+            self.character_state_type[self.state]()
+
+    
+    def character_state_wait(self):
+        pass
+
+
+    def character_state_walk_down(self):
+        self.y -= 3
+
+
+    def character_state_walk_down_left(self):
+        self.character_state_walk_down()
+        self.character_state_walk_left()
+
+
+    def character_state_walk_down_right(self):
+        self.character_state_walk_down()
+        self.character_state_walk_right()
+
+
+    def character_state_walk_left(self):
+        self.x -= 3
+
+
+    def character_state_walk_right(self):
+        self.x += 3
+
+
+    def character_state_walk_up(self):
+        self.y += 3
+
+
+    def character_state_walk_up_left(self):
+        self.character_state_walk_up()
+        self.character_state_walk_left()
+
+
+    def character_state_walk_up_right(self):
+        self.character_state_walk_up()
+        self.character_state_walk_right()
 
 
     def draw(self, image):
