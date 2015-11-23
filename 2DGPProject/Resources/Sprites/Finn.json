@@ -18,7 +18,7 @@
       "framecount": 6
     },
     {
-      "name": "WALK_LEFTDOWN",
+      "name": "WALK_DOWN_LEFT",
       "x": 0,
       "y": 70,
       "framewidth": 23,
@@ -26,7 +26,7 @@
       "framecount": 6
     },
     {
-      "name": "WALK_RIGHTDOWN",
+      "name": "WALK_DOWN_RIGHT",
       "x": 0,
       "y": 105,
       "framewidth": 23,
@@ -58,7 +58,7 @@
       "framecount": 6
     },
     {
-      "name": "WALK_LEFTUP",
+      "name": "WALK_UP_LEFT",
       "x": 0,
       "y": 245,
       "framewidth": 23,
@@ -66,7 +66,7 @@
       "framecount": 6
     },
     {
-      "name": "WALK_RIGHTUP",
+      "name": "WALK_UP_RIGHT",
       "x": 0,
       "y": 280,
       "framewidth": 23,

@@ -30,7 +30,7 @@ def load_map(name):
 
         # Orthogonal, isometric, or staggered
         map_data.orientation = data.get('orientation')
-        
+
         # Hex-formatted color (#RRGGBB) (Optional)
         map_data.backgroundcolor = data.get('backgroundcolor')
 

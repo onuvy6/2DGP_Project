@@ -1,3 +1,7 @@
+﻿width   = 640
+height  = 960
+
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter

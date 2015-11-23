@@ -1,16 +1,27 @@
 ﻿import json
-import pico2d
+from pico2d import *
 import pico2d_extension
 
 
 class CharacterData(object):
+
+    CHARACTER_STATE_WAIT,               \
+    CHARACTER_STATE_WALK_DOWN,          \
+    CHARACTER_STATE_WALK_DOWN_LEFT,     \
+    CHARACTER_STATE_WALK_DOWN_RIGHT,    \
+    CHARACTER_STATE_WALK_LEFT,          \
+    CHARACTER_STATE_WALK_RIGHT,         \
+    CHARACTER_STATE_WALK_UP,            \
+    CHARACTER_STATE_WALK_UP_LEFT,       \
+    CHARACTER_STATE_WALK_UP_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7, 8
 
     def __init__(self):
         self.name = ''
         self.x = 100
         self.y = 100
         self.frame = 0
-        self.state = 0
+        self.frame_stop = False
+        self.state = CharacterData.CHARACTER_STATE_WAIT
         self.animations = []
         
 
@@ -45,7 +56,8 @@ class CharacterData(object):
 
 
     def update(self):
-        self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
+        if self.frame_stop == False:
+            self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
 
 
     def draw(self, image):
@@ -57,7 +69,13 @@ class CharacterData(object):
 
 
     def draw_rect(self, r, g, b):
-        pico2d_extension.draw_rectangle(*self.to_rect() + (r, g, b) )
+        pico2d_extension.set_color(255, 255, 0)
+        pico2d_extension.draw_rectangle(*self.to_rect())
+
+        
+    def change_state(self, state):
+        self.state = state
+        self.frame_stop = False
 
 
 class AnimationData:

@@ -1,7 +1,10 @@
-﻿import pico2d_extension
+﻿import collision
+import pico2d_extension
+import game_framework
 
 
 class MapData:
+
     def __init__(self):
         # Number of tile columns
         self.width = 0
@@ -46,7 +49,7 @@ class MapData:
     def to_rect(self, gid):
         tileset = self.to_tileset(gid)
 
-        if tileset is None:
+        if tileset == None:
             return (0, 0, 0, 0)
 
         id = gid - tileset.firstgid
@@ -59,29 +62,47 @@ class MapData:
                 tileset.tileheight)
 
 
-    def collision(self, x, y):
+    def to_object_rect(self, object):
+        gid = object.gid
+        tileset = self.to_tileset(gid)
+        
+        object_y = game_framework.height - object.y
+
+        return object.x - (tileset.tilewidth // 2), object_y - (tileset.tileheight // 2), \
+               object.x + (tileset.tilewidth // 2), object_y + (tileset.tileheight // 2)
+
+
+    def update(self):
+        pass
+
+
+    def get_hexagon_from_point(self, x, y):
+
         _y = (y) // (self.tileheight // 2)
-        _x = ( (x) - ((_y + 1) % 2) * (self.tilewidth // 2) ) // self.tilewidth
+        
+        for _x in range(self.width):
+            hx = _x * self.tilewidth + ( (_y+1) % 2 ) * (self.tilewidth // 2)
+            hy = _y * (self.tileheight // 2)
+            if collision.point_in_rect(x,y,hx,hy,self.tilewidth,self.tileheight):
+                return (hx, hy)
+        
+        return (-1, -1)
 
-        _rx = (_x) * self.tilewidth + ((_y + 1) % 2) * (self.tilewidth // 2)
-        _ry = (_y) * (self.tileheight // 2)
 
-        pico2d_extension.draw_hexagon(_rx, _ry, self.tilewidth, self.tilewidth, 255, 0, 0)
-
-
-    def draw(self, w, h):
+    def draw(self):
         draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
             'objectgroup'   : self.draw_object_layer,
             'imagelayer'    : self.draw_image_layer
         }
         for layer in self.layers:
-            draw_layer_type[layer.type](w, h, layer)
+            draw_layer_type[layer.type](layer)
         
-        self.draw_grid()
+        # DO NOT USE
+        #self.draw_grid()
 
 
-    def draw_tile_layer(self, w, h, layer):
+    def draw_tile_layer(self, layer):
         if self.orientation == 'orthogonal':
             pass
 
@@ -98,29 +119,32 @@ class MapData:
                     if tileset is not None:
                         _x = (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
                         _y = (y) * (tileset.tileheight // 2)
-                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)   
+                        tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)   
         else:
             pass
 
 
-    def draw_object_layer(self, w, h, layer):
+    def draw_object_layer(self, layer):
+        pico2d_extension.set_color(255, 0, 0)
         for object in layer.objects:
             gid = object.gid
             tileset = self.to_tileset(gid)
             if tileset is not None:
                 _x = object.x
-                _y = h - object.y
-                #_y =  tileset.tileheight + ((self.height - 1) * (tileset.tileheight // 2)) - object.y
-                tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)
+                _y = game_framework.height - object.y
+                tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)
+                pico2d_extension.draw_rectangle(_x - tileset.tilewidth // 2, _y - tileset.tileheight // 2, _x + tileset.tilewidth // 2, _y + tileset.tileheight // 2)
 
 
     def draw_image_layer(self, w, h, layer):
         pass
 
 
-    def draw_grid(self):
-        for y in range(self.height):
-            for x in range(self.width):
-                _x = (x) * self.tilewidth + ((y + 1) % 2) * (self.tilewidth // 2)
-                _y = (y) * (self.tileheight // 2)
-                pico2d_extension.draw_hexagon(_x, _y, self.tilewidth, self.tilewidth, 127, 127, 127)
+    def draw_hexagon(self,x,y):
+        pico2d_extension.set_color(127,127,127)
+        pico2d_extension.draw_hexagon(x, y, self.tilewidth // 2)
+
+
+    def draw_hexagon_on_point(self,x,y):
+        point = self.get_hexagon_from_point(x,y)
+        self.draw_hexagon(*point)
