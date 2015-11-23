@@ -149,7 +149,7 @@ class MapData:
             tileset = self.to_tileset(gid)
             if tileset is not None:
                 _x = object.x
-                _y = self.mapheight - object.y
+                _y = game_framework.height - object.y
                 tileset.image.clip_draw(*self.to_rect(gid), x=((game_framework.width - self.mapwidth) // 2) + _x, y=_y)
                 pico2d_extension.draw_rectangle(_x - tileset.tilewidth // 2, _y - tileset.tileheight // 2, _x + tileset.tilewidth // 2, _y + tileset.tileheight // 2)
 
