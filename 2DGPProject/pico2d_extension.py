@@ -16,13 +16,16 @@ def draw_rectangle(x1,y1,x2,y2,r,g,b):
 
 
 def draw_hexagon(x,y,w,h,r,g,b):
-    half_width, half_height = w // 2, h // 2
-    s = int(half_width // math.cos(math.radians(30)))
-    b = (h - s) // 2 
+    y = pico2d.canvas_height - y
+    half_width  = w // 2
+    half_height = h // 2
+    outside_length = int(half_width * math.tan(math.radians(30)))
+    side_length = int(outside_length // math.sin(math.radians(30)))
+
     SDL_SetRenderDrawColor(pico2d.renderer, r, g, b, 255)
-    SDL_RenderDrawLine(pico2d.renderer, x, y - half_height, x + half_width, y - half_height + b)
-    SDL_RenderDrawLine(pico2d.renderer, x + half_width, y - half_height + b, x + half_width, y - half_height + b + s)
-    SDL_RenderDrawLine(pico2d.renderer, x + half_width, y - half_height + b + s, x, y + half_height)
-    SDL_RenderDrawLine(pico2d.renderer, x, y + half_height, x - half_width, y +half_height - b)
-    SDL_RenderDrawLine(pico2d.renderer, x - half_width, y + half_height -b, x - half_width, y + half_height - b - s)
-    SDL_RenderDrawLine(pico2d.renderer, x - half_width, y + half_height - b - s, x, y - half_height)
+    SDL_RenderDrawLine(pico2d.renderer, x + half_width, y, x + w, y + outside_length)
+    SDL_RenderDrawLine(pico2d.renderer, x + w, y + outside_length, x + w, y + outside_length + half_height)
+    SDL_RenderDrawLine(pico2d.renderer, x + w, y + outside_length + half_height, x + half_width, y + h)
+    SDL_RenderDrawLine(pico2d.renderer, x + half_width, y + h, x, y + outside_length + half_height)
+    SDL_RenderDrawLine(pico2d.renderer, x, y + outside_length + half_height, x, y + outside_length)
+    SDL_RenderDrawLine(pico2d.renderer, x, y + outside_length, x + half_width, y)

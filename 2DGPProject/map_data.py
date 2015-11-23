@@ -1,4 +1,7 @@
-﻿class MapData:
+﻿import pico2d_extension
+
+
+class MapData:
     def __init__(self):
         # Number of tile columns
         self.width = 0
@@ -56,6 +59,16 @@
                 tileset.tileheight)
 
 
+    def collision(self, x, y):
+        _y = (y) // (self.tileheight // 2)
+        _x = ( (x) - ((_y + 1) % 2) * (self.tilewidth // 2) ) // self.tilewidth
+
+        _rx = (_x) * self.tilewidth + ((_y + 1) % 2) * (self.tilewidth // 2)
+        _ry = (_y) * (self.tileheight // 2)
+
+        pico2d_extension.draw_hexagon(_rx, _ry, self.tilewidth, self.tilewidth, 255, 0, 0)
+
+
     def draw(self, w, h):
         draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
@@ -64,6 +77,8 @@
         }
         for layer in self.layers:
             draw_layer_type[layer.type](w, h, layer)
+        
+        self.draw_grid()
 
 
     def draw_tile_layer(self, w, h, layer):
@@ -75,15 +90,15 @@
 
         elif self.orientation == 'hexagonal':
             for y in reversed(range(layer.height)):
-                for x in reversed(range(layer.width)):
+                for x in (range(layer.width)):
                     gid = layer.data[y][x]
                     if gid is 0:
                         continue
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
-                        _x = (x) * tileset.tilewidth + (y % 2) * (tileset.tilewidth // 2)
+                        _x = (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
                         _y = (y) * (tileset.tileheight // 2)
-                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)
+                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)   
         else:
             pass
 
@@ -94,10 +109,18 @@
             tileset = self.to_tileset(gid)
             if tileset is not None:
                 _x = object.x
-                _y = ((self.height - 1) * (tileset.tileheight // 2)) - object.y
+                _y = h - object.y
+                #_y =  tileset.tileheight + ((self.height - 1) * (tileset.tileheight // 2)) - object.y
                 tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=((w - self.mapwidth) // 2) + _x, y=_y)
 
 
     def draw_image_layer(self, w, h, layer):
         pass
 
+
+    def draw_grid(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                _x = (x) * self.tilewidth + ((y + 1) % 2) * (self.tilewidth // 2)
+                _y = (y) * (self.tileheight // 2)
+                pico2d_extension.draw_hexagon(_x, _y, self.tilewidth, self.tilewidth, 127, 127, 127)

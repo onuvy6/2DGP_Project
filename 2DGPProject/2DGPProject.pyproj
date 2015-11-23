@@ -29,6 +29,12 @@
     <Compile Include="2DGPProject.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="character_data.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="finn_character.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="game_framework.py" />
     <Compile Include="game_state.py">
       <SubType>Code</SubType>

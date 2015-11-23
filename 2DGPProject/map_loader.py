@@ -71,9 +71,17 @@ def load_map(name):
                     for i in range(layer_data.height):
                         line = [x for x in _data[i * layer_data.width : i * layer_data.width + layer_data.width]]
                         layer_data.data.append(line)
-                else:
+                elif map_data.renderorder == 'right-down':
                     for i in reversed(range(layer_data.height)):
                         line = [x for x in _data[i * layer_data.width : i * layer_data.width + layer_data.width]]
+                        layer_data.data.append(line)
+                elif map_data.renderorder == 'left-up':
+                    for i in range(layer_data.height):
+                        line = [x for x in reversed(_data[i * layer_data.width : i * layer_data.width + layer_data.width])]
+                        layer_data.data.append(line)
+                elif map_data.renderorder == 'left-down':
+                    for i in reversed(range(layer_data.height)):
+                        line = [x for x in reversed(_data[i * layer_data.width : i * layer_data.width + layer_data.width])]
                         layer_data.data.append(line)
 
             ##########################################################################
