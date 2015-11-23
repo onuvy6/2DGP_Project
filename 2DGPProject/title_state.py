@@ -5,15 +5,13 @@ import collision
 
 import character_data
 import finn_character
+import cubchoo_character
 
 from pico2d import *
 from pico2d_extension import *
 
 
 name = "TitleState"
-image = None
-map = None
-finn = None
 
 def enter():
     global image
@@ -25,31 +23,44 @@ def enter():
     global finn
     finn = finn_character.Finn()
 
-    pass
+    global cubchooes
+    cubchooes = [cubchoo_character.Cubchoo() for i in range(10)]
 
 
 def exit():
-    global map
+    del (image)
+    
     del (map)
 
-    global image
-    del (image)
-
-    global finn
     del (finn)
+    del (cubchoo)
 
 
 def update():
     finn.update()
+
+    for cubchoo in cubchooes:
+        cubchoo.update()
+
     collision.collision_map_and_character(map, finn)
+
+    for cubchoo in cubchooes:
+        collision.collision_map_and_character(map, cubchoo)
     
 
 def draw():
     clear_canvas()
+
     image.draw(game_framework.width//2, game_framework.height//2)
+
     map.draw();
     map.draw_hexagon_on_point(finn.x, finn.y)
+
     finn.draw()
+
+    for cubchoo in cubchooes:
+        cubchoo.draw()
+
     update_canvas()
 
 

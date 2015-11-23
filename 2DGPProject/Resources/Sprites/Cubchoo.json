@@ -1,0 +1,76 @@
+{
+  "image": "Resources\\Sprites\\Cubchoo.png",
+  "animations": [
+    {
+      "name": "WAIT",
+      "x": 0,
+      "y": 0,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN",
+      "x": 0,
+      "y": 28,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN_LEFT",
+      "x": 0,
+      "y": 56,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN_RIGHT",
+      "x": 0,
+      "y": 84,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_LEFT",
+      "x": 0,
+      "y": 112,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_RIGHT",
+      "x": 0,
+      "y": 140,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP",
+      "x": 0,
+      "y": 168,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP_LEFT",
+      "x": 0,
+      "y": 196,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP_RIGHT",
+      "x": 0,
+      "y": 224,
+      "framewidth": 26,
+      "frameheight": 28,
+      "framecount": 3
+    }]
+}

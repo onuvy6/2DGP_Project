@@ -35,6 +35,9 @@
     <Compile Include="collision.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="cubchoo_character.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="finn_character.py">
       <SubType>Code</SubType>
     </Compile>

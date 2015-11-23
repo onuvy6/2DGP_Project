@@ -21,15 +21,6 @@ class Finn(CharacterData):
 
 
     def update(self):
-        if self.frame_stop == False:
-            if self.state == CharacterData.CHARACTER_STATE_WALK_DOWN:
-                self.y -= 3
-            elif self.state == CharacterData.CHARACTER_STATE_WALK_UP:
-                self.y += 3
-            elif self.state == CharacterData.CHARACTER_STATE_WALK_LEFT:
-                self.x -= 3
-            elif self.state == CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                self.x += 3
         CharacterData.update(self)
 
 

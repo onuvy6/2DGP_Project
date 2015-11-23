@@ -20,22 +20,6 @@ def rect_in_rect(o1_left,o1_bottom,o1_right,o1_top,o2_left,o2_bottom,o2_right,o2
     return True
 
 
-def get_intersect_rect(o1_left,o1_bottom,o1_right,o1_top,o2_left,o2_bottom,o2_right,o2_top):
-    
-    intersect_left, intersect_right = 0, 0
-    intersect_top, intersect_bottom = 0, 0
-
-    if o1_left <= o2_right and o1_right >= o2_left:
-        intersect_left = o1_left > o2_left and o1_left or o2_left
-        intersect_right = o1_right < o2_right and o1_right or o2_right
-
-    if o1_top <= o2_bottom and o1_bottom >= o2_top:
-        intersect_top = o1_top> o2_top and o1_top or o2_top
-        intersect_bottom = o1_bottom > o2_bottom and o1_bottom or o2_bottom
-
-    return intersect_left, intersect_bottom, intersect_right, intersect_top
-
-
 def collision_map_and_character(map, character):
     for layer in map.layers:
         if layer.type == 'tilelayer':
@@ -55,7 +39,19 @@ def collision_map_and_character(map, character):
                     character.x -= 3
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
                     character.y -= 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+                    character.x += 3
+                    character.y -= 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+                    character.x -= 3
+                    character.y -= 3
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+                    character.y += 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+                    character.x += 3
+                    character.y += 3
+                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+                    character.x -= 3
                     character.y += 3
 
                 character.frame_stop = True
@@ -78,9 +74,32 @@ def collision_map_and_character(map, character):
                         character.x = object_rect[0] - (character_width // 2 + 1)
                     elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
                         character.y = object_rect[1] - (character_height // 2 + 1)
+                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+                        character.x = object_rect[2] + (character_width // 2 + 1)
+                        character.y = object_rect[1] - (character_height // 2 + 1)
+                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+                        character.x = object_rect[0] - (character_width // 2 + 1)
+                        character.y = object_rect[1] - (character_height // 2 + 1)
                     elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+                        character.y = object_rect[3] + (character_height // 2 + 1)
+                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+                        character.x = object_rect[2] + (character_width // 2 + 1)
+                        character.y = object_rect[3] + (character_height // 2 + 1)
+                    elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+                        character.x = object_rect[0] - (character_width // 2 + 1)
                         character.y = object_rect[3] + (character_height // 2 + 1)
 
                     character.frame_stop = True
 
                     break
+
+
+def collision_character_and_character(character1, character2):
+
+    character1_rect = character1.to_rect()
+    character2_rect = character2.to_rect()
+
+    if rect_in_rect(*(object_rect + character_rect)):
+        return True
+
+    return False
