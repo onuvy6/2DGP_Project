@@ -5,6 +5,7 @@ import collision
 import character_data
 import finn_character
 import cubchoo_character
+import terrorlight_character
 import pause_state
 import title_state
 
@@ -36,7 +37,10 @@ def enter():
     finn = finn_character.Finn()
 
     global cubchooes
-    cubchooes = [cubchoo_character.Cubchoo() for i in range(1)]
+    cubchooes = [cubchoo_character.Cubchoo() for i in range(10)]
+    
+    global terrorlights
+    terrorlights = [terrorlight_character.Terrorlight() for i in range(5)]
 
 
 def exit():
@@ -51,23 +55,30 @@ def exit():
     global map
     del (map)
 
-    global finn, cubchooes
+    global finn
     del (finn)
+
+    global cubchooes, terrorlights
     del (cubchooes)
+    del (terrorlights)
 
 
 def update(frame_time):
 
     finn.update()
-    collision.collision_map_and_character(map, finn)
+    
+    for terrorlight in terrorlights:
+        terrorlight.update()
+        collision.collision_player_and_character(finn, terrorlight)
+        collision.collision_map_and_character(map, terrorlight) 
 
     for cubchoo in cubchooes:
-
-        cubchoo.update()
-        
-        collision.collision_map_and_character(map, cubchoo)  
+        cubchoo.update() 
         collision.collision_player_and_character(finn, cubchoo)
-      
+        collision.collision_map_and_character(map, cubchoo) 
+    
+    collision.collision_map_and_character(map, finn)
+
     collision_trigger_and_player()
     
 
@@ -83,6 +94,9 @@ def draw(frame_time):
 
     for cubchoo in cubchooes:
         cubchoo.draw()
+
+    for terrorlight in terrorlights:
+        terrorlight.draw()
 
     map.draw_object()
 
