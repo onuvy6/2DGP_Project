@@ -54,9 +54,38 @@ def update(frame_time):
     collision.collision_map_and_character(map, finn)
 
     for cubchoo in cubchooes:
+
         cubchoo.update()
+
         if collision.collision_character_and_character(finn, cubchoo):
-            pass
+            
+            finn_rect = finn.to_rect()
+            cubchoo_rect = cubchoo.to_rect()
+
+            finn_width = finn_rect[2] - finn_rect[0]
+            finn_height = finn_rect[3] - finn_rect[1]
+
+            if cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
+                finn.x = cubchoo_rect[0] - finn_width // 2
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
+                finn.x = cubchoo_rect[2] + finn_width // 2
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
+                finn.y = cubchoo_rect[3] + finn_height // 2 
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+                finn.x = cubchoo_rect[0] - finn_width // 2
+                finn.y = cubchoo_rect[3] + finn_height // 2 
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+                finn.x = cubchoo_rect[2] + finn_width // 2
+                finn.y = cubchoo_rect[3] + finn_height // 2 
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+                finn.y = cubchoo_rect[1] - finn_height // 2
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+                finn.x = cubchoo_rect[0] - finn_width // 2
+                finn.y = cubchoo_rect[1] - finn_height // 2
+            elif cubchoo.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+                finn.x = cubchoo_rect[2] + finn_width // 2
+                finn.y = cubchoo_rect[1] - finn_height // 2
+
         collision.collision_map_and_character(map, cubchoo)        
     
 

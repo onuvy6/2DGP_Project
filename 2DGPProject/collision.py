@@ -28,11 +28,7 @@ def collision_map_and_character(map, character):
             x, y = hexagon_index
             
             if (x < 0 or x >= map.width) or (y < 0 or y >= map.height) or layer.data[y][x] == 0:
-                character_rect = character.to_rect()
     
-                character_width = character_rect[2] - character_rect[0]
-                character_height = character_rect[3] - character_rect[1]
-                      
                 if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
                     character.x += character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
@@ -65,9 +61,6 @@ def collision_map_and_character(map, character):
 
                     if rect_in_rect(*(object_rect + character_rect)):
 
-                        character_width = character_rect[2] - character_rect[0]
-                        character_height = character_rect[3] - character_rect[1]
-                      
                         if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
                             character.x += character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
