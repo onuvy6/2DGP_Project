@@ -131,4 +131,3 @@ def collision_player_and_character(player, character):
         player.y += size[1]
 
         player.frame_stop = True
-    

@@ -17,10 +17,10 @@ from pico2d_extension import *
 name = "TitleState"
 
 def enter():
-    #global bgm 
-    #bgm = load_music('football.mp3')
-    #bgm.set_volume(64)
-    #bgm.repeat_play()
+    global background_music 
+    background_music = load_music('Resources/Musics/TitleState.ogg')
+    background_music.set_volume(64)
+    background_music.repeat_play()
 
     global background_image
     background_image = load_image('Resources/States/Background_01.png')
@@ -48,6 +48,9 @@ def enter():
 
 
 def exit():
+    global background_music
+    del (background_music)
+
     global background_image
     del (background_image)
     

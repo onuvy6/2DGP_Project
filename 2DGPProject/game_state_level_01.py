@@ -15,6 +15,11 @@ from pico2d_extension import *
 name = "GameStateLevel01"
 
 def enter():
+    global background_music 
+    background_music = load_music('Resources/Musics/GameState.ogg')
+    background_music.set_volume(64)
+    background_music.repeat_play()
+
     global background_image
     background_image = load_image('Resources/States/Background_01.png')
 
@@ -35,6 +40,9 @@ def enter():
 
 
 def exit():
+    global background_music 
+    del (background_music)
+
     global background_image, pause_image, back_image
     del (background_image)
     del (pause_image)
