@@ -1,0 +1,76 @@
+{
+  "image": "Resources\\Sprites\\Terrorlight.png",
+  "animations": [
+    {
+      "name": "WAIT",
+      "x": 0,
+      "y": 0,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN",
+      "x": 0,
+      "y": 30,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN_LEFT",
+      "x": 0,
+      "y": 60,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_DOWN_RIGHT",
+      "x": 0,
+      "y": 90,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_LEFT",
+      "x": 0,
+      "y": 120,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_RIGHT",
+      "x": 0,
+      "y": 150,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP",
+      "x": 0,
+      "y": 180,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP_LEFT",
+      "x": 0,
+      "y": 210,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    },
+    {
+      "name": "WALK_UP_RIGHT",
+      "x": 0,
+      "y": 240,
+      "framewidth": 36,
+      "frameheight": 30,
+      "framecount": 3
+    }]
+}
