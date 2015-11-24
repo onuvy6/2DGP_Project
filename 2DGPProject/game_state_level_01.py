@@ -6,6 +6,7 @@ import character_data
 import finn_character
 import cubchoo_character
 import pause_state
+import title_state
 
 from pico2d import *
 from pico2d_extension import *
@@ -20,6 +21,9 @@ def enter():
     global pause_image
     pause_image = load_image('Resources/Images/Pause.png')
 
+    global back_image
+    back_image = load_image('Resources/Images/Back.png')
+
     global map
     map = map_loader.load_map('Resources/Maps/Level_01.json')
 
@@ -31,10 +35,15 @@ def enter():
 
 
 def exit():
+    global background_image, pause_image, back_image
     del (background_image)
-    
+    del (pause_image)
+    del (back_image)
+
+    global map
     del (map)
 
+    global finn, cubchooes
     del (finn)
     del (cubchooes)
 
@@ -67,6 +76,7 @@ def draw():
     map.draw_high()
 
     pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
+    back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
 
     update_canvas()
 
@@ -88,6 +98,10 @@ def handle_events():
                                     game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
                                     pause_image.w, pause_image.h):
                 game_framework.push_state(pause_state)
+            elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                    back_image.w // 2, game_framework.height - back_image.h // 2,
+                                    back_image.w, back_image.h):
+                game_framework.change_state(title_state)
 
 
 def pause():

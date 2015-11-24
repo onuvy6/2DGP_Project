@@ -7,6 +7,8 @@ import character_data
 import finn_character
 import cubchoo_character
 import terrorlight_character
+import maple_particle
+import snow_particle
 
 from pico2d import *
 from pico2d_extension import *
@@ -33,23 +35,31 @@ def enter():
     global terrorlights
     terrorlights = [terrorlight_character.Terrorlight() for i in range(3)]
 
+    global maples
+    maples = [maple_particle.Maple() for i in range(10)]
+
+    global snows
+    snows = [snow_particle.Snow() for i in range(50)]
+
 
 def exit():
     global background_image
     del (background_image)
     
-    global game_start_image
+    global game_start_image, exit_image
     del (game_start_image)
-    global exit_image
     del (exit_image)
 
     global map
     del (map)
 
-    global cubchooes
+    global cubchooes, terrorlights
     del (cubchooes)
-    global terrorlights
     del (terrorlights)
+
+    global maples, snows
+    del(maples)
+    del(snows)
 
 
 def update():
@@ -61,6 +71,12 @@ def update():
     for terrorlight in terrorlights:
         terrorlight.update()
         collision.collision_map_and_character(map, terrorlight) 
+
+    for maple in maples:
+        maple.update()
+
+    for snow in snows:
+        snow.update()
 
 
 def draw():
@@ -77,6 +93,12 @@ def draw():
         terrorlight.draw()
 
     map.draw_high()
+
+    for maple in maples:
+        maple.draw()
+
+    for snow in snows:
+        snow.draw()
 
     game_start_image.draw(game_framework.width // 2, game_framework.height * 0.3)
     exit_image.draw(game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2)

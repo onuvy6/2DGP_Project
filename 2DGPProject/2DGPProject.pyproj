@@ -38,6 +38,12 @@
     <Compile Include="cubchoo_character.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="game_state.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="particle_data.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="finn_character.py">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +55,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="logo_state.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="maple_particle.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="map_data.py">
@@ -64,6 +73,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pico2d_extension.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="snow_particle.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="terrorlight_character.py">
