@@ -56,7 +56,6 @@ def collision_map_and_character(map, character):
 
                 character.frame_stop = True
 
-
         # objectgroup
         elif layer.type == 'objectgroup':
             if layer.name == 'Object Layer 1':
@@ -70,29 +69,29 @@ def collision_map_and_character(map, character):
                         character_height = character_rect[3] - character_rect[1]
                       
                         if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
-                            character.x = object_rect[2] + (character_width // 2 + 1)
+                            character.x += character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                            character.x = object_rect[0] - (character_width // 2 + 1)
+                            character.x -= character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
-                            character.y = object_rect[1] - (character_height // 2 + 1)
+                            character.y -= character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
-                            character.x = object_rect[2] + (character_width // 2 + 1)
-                            character.y = object_rect[1] - (character_height // 2 + 1)
+                            character.x += character.speed
+                            character.y -= character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
-                            character.x = object_rect[0] - (character_width // 2 + 1)
-                            character.y = object_rect[1] - (character_height // 2 + 1)
+                            character.x -= character.speed
+                            character.y -= character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
-                            character.y = object_rect[3] + (character_height // 2 + 1)
+                            character.y += character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
-                            character.x = object_rect[2] + (character_width // 2 + 1)
-                            character.y = object_rect[3] + (character_height // 2 + 1)
+                            character.x += character.speed
+                            character.y += character.speed
                         elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
-                            character.x = object_rect[0] - (character_width // 2 + 1)
-                            character.y = object_rect[3] + (character_height // 2 + 1)
+                            character.x -= character.speed
+                            character.y += character.speed
 
                         character.frame_stop = True
 
-                        break
+                        break                      
 
 
 def collision_character_and_character(character1, character2):

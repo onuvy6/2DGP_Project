@@ -19,7 +19,8 @@ class Terrorlight(CharacterData):
         self.speed = random.randint(3, 5)
 
         range = (1, 4, 5, 6)
-        self.state = range[random.randint(0,3)]
+        #self.state = range[random.randint(0,3)]
+        self.state = random.randint(1,8)
 
         if Terrorlight.image is None:
             Terrorlight.image = pico2d.load_image(self.name)
@@ -29,7 +30,8 @@ class Terrorlight(CharacterData):
         CharacterData.update(self)
         if self.frame_stop == True:
             range = (1, 4, 5, 6)
-            self.state = range[random.randint(0,3)]
+            #self.state = range[random.randint(0,3)]
+            self.state = random.randint(1,8)
             self.frame_stop = False
 
 

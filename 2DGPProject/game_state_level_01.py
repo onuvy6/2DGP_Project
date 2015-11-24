@@ -31,7 +31,7 @@ def enter():
     finn = finn_character.Finn()
 
     global cubchooes
-    cubchooes = [cubchoo_character.Cubchoo() for i in range(10)]
+    cubchooes = [cubchoo_character.Cubchoo() for i in range(1)]
 
 
 def exit():

@@ -19,7 +19,8 @@ class Cubchoo(CharacterData):
         self.speed = random.randint(1, 3)
 
         range = (1, 4, 5, 6)
-        self.state = range[random.randint(0,3)]
+        #self.state = range[random.randint(0,3)]
+        self.state = random.randint(1,8)
 
         if Cubchoo.image is None:
             Cubchoo.image = pico2d.load_image(self.name)
@@ -28,8 +29,9 @@ class Cubchoo(CharacterData):
     def update(self):
         CharacterData.update(self)
         if self.frame_stop == True:
-            range = (1, 4, 5, 6)
-            self.state = range[random.randint(1,3)]
+            range = (2, 3, 7, 8)
+            self.state = range[random.randint(0,3)]
+            #self.state = random.randint(1,8)
             self.frame_stop = False
 
 
