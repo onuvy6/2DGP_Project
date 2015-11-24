@@ -5,6 +5,7 @@ import collision
 import character_data
 import finn_character
 import cubchoo_character
+import pause_state
 
 from pico2d import *
 from pico2d_extension import *
@@ -13,8 +14,11 @@ from pico2d_extension import *
 name = "GameStateLevel01"
 
 def enter():
-    global image
-    image = load_image('Resources/States/Background_01.png')
+    global background_image
+    background_image = load_image('Resources/States/Background_01.png')
+
+    global pause_image
+    pause_image = load_image('Resources/Images/Pause.png')
 
     global map
     map = map_loader.load_map('Resources/Maps/Level_01.json')
@@ -27,7 +31,7 @@ def enter():
 
 
 def exit():
-    del (image)
+    del (background_image)
     
     del (map)
 
@@ -50,7 +54,7 @@ def update():
 def draw():
     clear_canvas()
 
-    image.draw(game_framework.width//2, game_framework.height//2)
+    background_image.draw(game_framework.width//2, game_framework.height//2)
 
     map.draw_low()
     map.draw_hexagon_on_point(finn.x, finn.y)
@@ -61,6 +65,8 @@ def draw():
         cubchoo.draw()
 
     map.draw_high()
+
+    pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
 
     update_canvas()
 
@@ -76,6 +82,12 @@ def handle_events():
         elif event.type == SDL_KEYUP:
             if event.key == finn.get_key_from_state():
                 finn.frame_stop = True
+
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                    game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
+                                    pause_image.w, pause_image.h):
+                game_framework.push_state(pause_state)
 
 
 def pause():

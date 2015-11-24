@@ -100,7 +100,7 @@ def collision_character_and_character(character1, character2):
     character1_rect = character1.to_rect()
     character2_rect = character2.to_rect()
 
-    if rect_in_rect(*(object_rect + character_rect)):
+    if rect_in_rect(*(character1_rect + character2_rect)):
         return True
 
     return False

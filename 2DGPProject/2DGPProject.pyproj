@@ -60,6 +60,9 @@
     <Compile Include="object_data.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pause_state.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pico2d_extension.py">
       <SubType>Code</SubType>
     </Compile>

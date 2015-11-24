@@ -15,8 +15,14 @@ from pico2d_extension import *
 name = "TitleState"
 
 def enter():
-    global image
-    image = load_image('Resources/States/Background_01.png')
+    global background_image
+    background_image = load_image('Resources/States/Background_01.png')
+
+    global game_start_image
+    game_start_image = load_image('Resources/Images/GameStart.png')
+
+    global exit_image
+    exit_image = load_image('Resources/Images/Exit.png')
 
     global map
     map = map_loader.load_map('Resources/Maps/Title.json')
@@ -29,11 +35,21 @@ def enter():
 
 
 def exit():
-    del (image)
+    global background_image
+    del (background_image)
     
+    global game_start_image
+    del (game_start_image)
+    global exit_image
+    del (exit_image)
+
+    global map
     del (map)
 
+    global cubchooes
     del (cubchooes)
+    global terrorlights
+    del (terrorlights)
 
 
 def update():
@@ -50,7 +66,7 @@ def update():
 def draw():
     clear_canvas()
 
-    image.draw(game_framework.width//2, game_framework.height//2)
+    background_image.draw(game_framework.width//2, game_framework.height//2)
 
     map.draw_low()
     
@@ -62,13 +78,27 @@ def draw():
 
     map.draw_high()
 
+    game_start_image.draw(game_framework.width // 2, game_framework.height * 0.3)
+    exit_image.draw(game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2)
+
     update_canvas()
 
 
 def handle_events():
     events = get_events()
     for event in events:
-        pass
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+            game_framework.quit()
+
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                    game_framework.width // 2 - game_start_image.w // 2, game_framework.height * 0.3 + game_start_image.h // 2,
+                                    game_start_image.w, game_start_image.h):
+                game_framework.change_state(game_state_level_01)
+            elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                    game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2,
+                                         exit_image.w, exit_image.h):
+                game_framework.quit()
 
 
 def pause():

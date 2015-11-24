@@ -1,5 +1,6 @@
 {
   "image": "Resources\\Sprites\\Finn.png",
+  "speed": 3,
   "animations": [
     {
       "name": "WAIT",
