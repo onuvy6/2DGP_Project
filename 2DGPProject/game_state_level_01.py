@@ -48,7 +48,7 @@ def exit():
     del (cubchooes)
 
 
-def update():
+def update(frame_time):
 
     finn.update()
     collision.collision_map_and_character(map, finn)
@@ -60,7 +60,7 @@ def update():
         collision.collision_map_and_character(map, cubchoo)        
     
 
-def draw():
+def draw(frame_time):
     clear_canvas()
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
@@ -81,7 +81,7 @@ def draw():
     update_canvas()
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_KEYDOWN:

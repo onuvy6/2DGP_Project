@@ -17,6 +17,11 @@ from pico2d_extension import *
 name = "TitleState"
 
 def enter():
+    #global bgm 
+    #bgm = load_music('football.mp3')
+    #bgm.set_volume(64)
+    #bgm.repeat_play()
+
     global background_image
     background_image = load_image('Resources/States/Background_01.png')
 
@@ -62,7 +67,7 @@ def exit():
     del(snows)
 
 
-def update():
+def update(frame_time):
 
     for cubchoo in cubchooes:
         cubchoo.update()
@@ -79,7 +84,7 @@ def update():
         snow.update()
 
 
-def draw():
+def draw(frame_time):
     clear_canvas()
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
@@ -106,7 +111,7 @@ def draw():
     update_canvas()
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
