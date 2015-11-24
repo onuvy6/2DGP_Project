@@ -17,9 +17,6 @@ class Cubchoo(CharacterData):
         self.x = random.randint(400, 500)
         self.y = random.randint(400, 500)
         self.speed = random.randint(1, 3)
-
-        range = (1, 4, 5, 6)
-        #self.state = range[random.randint(0,3)]
         self.state = random.randint(1,8)
 
         if Cubchoo.image is None:
@@ -29,9 +26,7 @@ class Cubchoo(CharacterData):
     def update(self):
         CharacterData.update(self)
         if self.frame_stop == True:
-            range = (2, 3, 7, 8)
-            self.state = range[random.randint(0,3)]
-            #self.state = random.randint(1,8)
+            self.state = random.randint(1,8)
             self.frame_stop = False
 
 

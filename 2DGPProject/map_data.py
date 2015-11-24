@@ -55,6 +55,15 @@ class MapData:
         return None
 
 
+    def to_trigger(self, name):
+        for layer in self.layers:
+            if layer.name == 'Trigger Layer':
+                for object in layer.objects:
+                    if object.name == name:
+                        return object
+        return None
+
+
     def to_rect(self, gid):
         tileset = self.to_tileset(gid)
 
@@ -71,14 +80,21 @@ class MapData:
                 tileset.tileheight)
 
 
-    def to_object_rect(self, object):
-        gid = object.gid
-        tileset = self.to_tileset(gid)
-        
+    def to_tileset_object_rect(self, object):
+        object_x = self.mapoffsetx + object.x
         object_y = self.mapoffsety + self.mapheight - object.y
 
-        return object.x - (tileset.tilewidth // 2), object_y - (tileset.tileheight // 2), \
-               object.x + (tileset.tilewidth // 2), object_y + (tileset.tileheight // 2)
+        return object_x, object_y, \
+               object_x + object.width, object_y + object.height
+
+
+    def to_object_rect(self, object):
+
+        object_x = self.mapoffsetx + object.x
+        object_y = self.mapoffsety + self.mapheight - object.y - object.height
+
+        return object_x, object_y, \
+               object_x + object.width, object_y + object.height
 
 
     def update(self):
@@ -111,15 +127,15 @@ class MapData:
         return (-1, -1)
         
 
-    def draw_low(self):
+    def draw_ground(self):
         for layer in self.layers:
-            if layer.type == 'tilelayer' or layer.name == 'Object Layer 1':
+            if layer.type == 'tilelayer':
                 self.draw_layer_type[layer.type](layer)
-        
 
-    def draw_high(self):
+
+    def draw_object(self):
         for layer in self.layers:
-            if layer.type == 'objectgroup' and layer.name != 'Object Layer 1':
+            if layer.type != 'tilelayer':
                 self.draw_layer_type[layer.type](layer)
 
 
@@ -146,15 +162,20 @@ class MapData:
 
 
     def draw_object_layer(self, layer):
-        pico2d_extension.set_color(255, 255, 0)
-        for object in layer.objects:
-            gid = object.gid
-            tileset = self.to_tileset(gid)
-            if tileset is not None:
-                _x = self.mapoffsetx + object.x
-                _y = game_framework.height - self.mapoffsety - object.y
-                tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)
-                pico2d_extension.draw_rectangle(_x - tileset.tilewidth // 2, _y - tileset.tileheight // 2, _x + tileset.tilewidth // 2, _y + tileset.tileheight // 2)
+        if layer.name == 'Collision Layer' or \
+            layer.name == 'Trigger Layer':
+            pico2d_extension.set_color(127, 127, 127)
+            for object in layer.objects:
+                pico2d_extension.draw_rectangle(*self.to_object_rect(object))
+        else:
+            pico2d_extension.set_color(255, 255, 0)
+            for object in layer.objects:
+                gid = object.gid
+                tileset = self.to_tileset(gid)
+                if tileset is not None:
+                    rect = self.to_tileset_object_rect(object)
+                    tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1])
+                    pico2d_extension.draw_rectangle(*rect)
 
 
     def draw_image_layer(self, w, h, layer):

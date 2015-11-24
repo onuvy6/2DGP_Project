@@ -60,6 +60,7 @@ def update(frame_time):
         collision.collision_map_and_character(map, cubchoo)  
         collision.collision_player_and_character(finn, cubchoo)
       
+    collision_trigger_and_player()
     
 
 def draw(frame_time):
@@ -67,7 +68,7 @@ def draw(frame_time):
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
 
-    map.draw_low()
+    map.draw_ground()
     map.draw_hexagon_on_point(finn.x, finn.y)
 
     finn.draw()
@@ -75,7 +76,7 @@ def draw(frame_time):
     for cubchoo in cubchooes:
         cubchoo.draw()
 
-    map.draw_high()
+    map.draw_object()
 
     pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
     back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
@@ -112,3 +113,26 @@ def pause():
 
 def resume():
     pass
+
+
+def collision_trigger_and_player():
+
+    for layer in map.layers:
+
+        if layer.name == 'Trigger Layer':
+
+            for object in layer.objects:
+
+                object_rect = map.to_object_rect(object)
+                player_rect = finn.to_rect()
+
+                if object.name == 'PortalA':
+                    if collision.rect_in_rect(*(player_rect + object_rect)):
+                        portalB = map.to_trigger('PortalB')
+                        portalB_rect = map.to_object_rect(portalB)
+                        finn.x, finn.y = portalB_rect[0], portalB_rect[1]
+                #elif object.name == 'PortalB':
+                #    if collision.rect_in_rect(*(player_rect + object_rect)):
+                #        portalA = map.to_trigger('PortalA')
+                #        portalA_rect = map.to_object_rect(portalA)
+                #        finn.x, finn.y = portalA_rect[0], portalA_rect[1]

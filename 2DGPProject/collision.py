@@ -101,7 +101,7 @@ def collision_map_and_character(map, character):
 
         # objectgroup
         elif layer.type == 'objectgroup':
-            if layer.name == 'Object Layer 1':
+            if layer.name == 'Collision Layer':
                 for object in layer.objects:
 
                     object_rect = map.to_object_rect(object)
@@ -116,7 +116,7 @@ def collision_map_and_character(map, character):
 
                         character.frame_stop = True
 
-                        break                      
+                        break      
 
 
 def collision_player_and_character(player, character):

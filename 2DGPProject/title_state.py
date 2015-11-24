@@ -89,15 +89,15 @@ def draw(frame_time):
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
 
-    map.draw_low()
-    
+    map.draw_ground()
+
     for cubchoo in cubchooes:
         cubchoo.draw()
 
     for terrorlight in terrorlights:
         terrorlight.draw()
 
-    map.draw_high()
+    map.draw_object()
 
     for maple in maples:
         maple.draw()
