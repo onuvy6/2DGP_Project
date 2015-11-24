@@ -26,7 +26,7 @@ class Finn(CharacterData):
 
     def draw(self):
         CharacterData.draw(self, Finn.image)
-        CharacterData.draw_rect(self, 255, 255, 0)
+        CharacterData.draw_rect(self, 0, 255, 0)
 
 
     def is_valid_key(self, key):

@@ -124,7 +124,7 @@ class CharacterData(object):
 
 
     def draw_rect(self, r, g, b):
-        pico2d_extension.set_color(255, 255, 0)
+        pico2d_extension.set_color(r, g, b)
         pico2d_extension.draw_rectangle(*self.to_rect())
 
         

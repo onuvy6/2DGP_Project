@@ -146,7 +146,7 @@ class MapData:
 
 
     def draw_object_layer(self, layer):
-        pico2d_extension.set_color(255, 0, 0)
+        pico2d_extension.set_color(255, 255, 0)
         for object in layer.objects:
             gid = object.gid
             tileset = self.to_tileset(gid)

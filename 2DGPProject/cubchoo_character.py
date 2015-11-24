@@ -37,4 +37,4 @@ class Cubchoo(CharacterData):
 
     def draw(self):
         CharacterData.draw(self, Cubchoo.image)
-        CharacterData.draw_rect(self, 255, 0, 0)
+        CharacterData.draw_rect(self, 0, 255, 255)

@@ -34,7 +34,7 @@ def get_intersect_rect(o1_left,o1_bottom,o1_right,o1_top,o2_left,o2_bottom,o2_ri
             bottom  = (o1_bottom > o2_bottom) and o1_bottom or o2_bottom
             top     = (o1_top < o2_top) and o1_top or o2_top
 
-        pico2d_extension.set_color(127, 127, 127)
+        pico2d_extension.set_color(255, 0, 0)
         pico2d_extension.draw_rectangle(left,bottom,right,top)
         pico2d.update_canvas()
 

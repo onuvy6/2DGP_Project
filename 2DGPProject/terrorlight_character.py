@@ -1,4 +1,4 @@
-import random
+﻿import random
 import pico2d
 import pico2d_extension
 
@@ -37,4 +37,4 @@ class Terrorlight(CharacterData):
 
     def draw(self):
         CharacterData.draw(self, Terrorlight.image)
-        CharacterData.draw_rect(self, 255, 0, 0)
+        CharacterData.draw_rect(self, 0, 255, 255)
