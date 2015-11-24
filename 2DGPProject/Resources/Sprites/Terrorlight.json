@@ -1,5 +1,6 @@
 {
   "image": "Resources\\Sprites\\Terrorlight.png",
+  "speed": 0,
   "animations": [
     {
       "name": "WAIT",

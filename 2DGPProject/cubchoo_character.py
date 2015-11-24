@@ -1,4 +1,4 @@
-import random
+﻿import random
 import pico2d
 import pico2d_extension
 
@@ -16,7 +16,8 @@ class Cubchoo(CharacterData):
 
         self.x = random.randint(400, 500)
         self.y = random.randint(400, 500)
-        
+        self.speed = random.randint(1, 3)
+
         range = (1, 4, 5, 6)
         self.state = range[random.randint(0,3)]
 
@@ -28,7 +29,7 @@ class Cubchoo(CharacterData):
         CharacterData.update(self)
         if self.frame_stop == True:
             range = (1, 4, 5, 6)
-            self.state = range[random.randint(0,3)]
+            self.state = range[random.randint(1,3)]
             self.frame_stop = False
 
 

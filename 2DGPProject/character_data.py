@@ -19,6 +19,7 @@ class CharacterData(object):
         self.name = ''
         self.x = 0
         self.y = 0
+        self.speed = 0
         self.frame = 0
         self.frame_stop = False
         self.state = CharacterData.CHARACTER_STATE_WAIT
@@ -42,6 +43,7 @@ class CharacterData(object):
             data = json.load(f)
         
             self.name = data.get('image')
+            self.speed = data.get('speed')
             animations = data.get('animations')
             if animations is not None:
                 for animation in animations:
@@ -78,7 +80,7 @@ class CharacterData(object):
 
 
     def character_state_walk_down(self):
-        self.y -= 3
+        self.y -= self.speed
 
 
     def character_state_walk_down_left(self):
@@ -92,15 +94,15 @@ class CharacterData(object):
 
 
     def character_state_walk_left(self):
-        self.x -= 3
+        self.x -= self.speed
 
 
     def character_state_walk_right(self):
-        self.x += 3
+        self.x += self.speed
 
 
     def character_state_walk_up(self):
-        self.y += 3
+        self.y += self.speed
 
 
     def character_state_walk_up_left(self):

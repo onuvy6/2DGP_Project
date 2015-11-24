@@ -34,25 +34,25 @@ def collision_map_and_character(map, character):
                 character_height = character_rect[3] - character_rect[1]
                       
                 if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
-                    character.x += 3
+                    character.x += character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                    character.x -= 3
+                    character.x -= character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
-                    character.y -= 3
+                    character.y -= character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
-                    character.x += 3
-                    character.y -= 3
+                    character.x += character.speed
+                    character.y -= character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
-                    character.x -= 3
-                    character.y -= 3
+                    character.x -= character.speed
+                    character.y -= character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
-                    character.y += 3
+                    character.y += character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
-                    character.x += 3
-                    character.y += 3
+                    character.x += character.speed
+                    character.y += character.speed
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
-                    character.x -= 3
-                    character.y += 3
+                    character.x -= character.speed
+                    character.y += character.speed
 
                 character.frame_stop = True
 
