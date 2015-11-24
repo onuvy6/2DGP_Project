@@ -42,7 +42,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="game_framework.py" />
-    <Compile Include="game_state.py">
+    <Compile Include="game_state_level_01.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="layer_data.py">
@@ -61,6 +61,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pico2d_extension.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="terrorlight_character.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tile_data.py">
