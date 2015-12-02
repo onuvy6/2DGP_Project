@@ -1,5 +1,6 @@
 ﻿import pico2d
 import pico2d_extension
+import game_framework
 
 from character_data import *
 
@@ -26,7 +27,8 @@ class Finn(CharacterData):
 
     def draw(self):
         CharacterData.draw(self, Finn.image)
-        CharacterData.draw_rect(self, 0, 255, 0)
+        if game_framework.debug:
+            CharacterData.draw_rect(self, 0, 255, 0)
 
 
     def is_valid_key(self, key):

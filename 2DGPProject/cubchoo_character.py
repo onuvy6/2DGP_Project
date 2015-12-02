@@ -1,6 +1,7 @@
 ﻿import random
 import pico2d
 import pico2d_extension
+import game_framework
 
 from character_data import *
 
@@ -32,4 +33,5 @@ class Cubchoo(CharacterData):
 
     def draw(self):
         CharacterData.draw(self, Cubchoo.image)
-        CharacterData.draw_rect(self, 0, 255, 255)
+        if game_framework.debug:
+            CharacterData.draw_rect(self, 0, 255, 255)

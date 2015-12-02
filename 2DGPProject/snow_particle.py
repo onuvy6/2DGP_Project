@@ -1,4 +1,4 @@
-import random
+﻿import random
 import math
 import pico2d
 import pico2d_extension
@@ -38,5 +38,6 @@ class Snow(ParticleData):
 
     def draw(self):
         ParticleData.draw(self, Snow.image)
-        ParticleData.draw_rect(self, 255, 255, 0)
+        if game_framework.debug:
+            ParticleData.draw_rect(self, 255, 255, 0)
 

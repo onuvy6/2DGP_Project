@@ -2,6 +2,8 @@
 import character_data
 import pico2d
 import pico2d_extension
+import game_framework
+
 
 def point_in_rect(px,py,rx,ry,rw,rh):
     if px > rx + (rw // 2) or px < rx - (rw // 2):
@@ -34,9 +36,10 @@ def get_intersect_rect(o1_left,o1_bottom,o1_right,o1_top,o2_left,o2_bottom,o2_ri
             bottom  = (o1_bottom > o2_bottom) and o1_bottom or o2_bottom
             top     = (o1_top < o2_top) and o1_top or o2_top
 
-        pico2d_extension.set_color(255, 0, 0)
-        pico2d_extension.draw_rectangle(left,bottom,right,top)
-        pico2d.update_canvas()
+        if game_framework.debug:
+            pico2d_extension.set_color(255, 0, 0)
+            pico2d_extension.draw_rectangle(left,bottom,right,top)
+            pico2d.update_canvas()
 
     return left, bottom, right, top
 
@@ -125,6 +128,12 @@ def collision_player_and_character(player, character):
     character_rect  = character.to_rect()
 
     size = get_intersect_size_hold_object_and_object(*(character_rect + player_rect))
+
+    if not game_framework.debug:
+        rect = get_intersect_rect(*(character_rect + player_rect))
+        pico2d_extension.set_color(255, 0, 0)
+        pico2d_extension.draw_rectangle(*rect)
+        pico2d.update_canvas()
 
     if size != (0, 0):
         player.x += size[0]
