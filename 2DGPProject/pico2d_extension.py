@@ -1,7 +1,8 @@
 ﻿import math
 import pico2d
 from sdl2 import *
-
+from sdl2.sdlimage import *
+import ctypes
 
 # for debugging draw
 def draw_line(x1,y1,x2,y2):
@@ -38,3 +39,7 @@ def get_hexagon_point(x,y,size,i):
 
 def set_color(r,g,b):
     SDL_SetRenderDrawColor(pico2d.renderer, r, g, b, 255)
+
+
+def set_texture_color(texture, r, g, b):
+    SDL_SetTextureColorMod(texture, r, g, b)

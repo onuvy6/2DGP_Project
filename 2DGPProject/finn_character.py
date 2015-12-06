@@ -19,9 +19,12 @@ class Finn(CharacterData):
 
         if Finn.image is None:
             Finn.image = pico2d.load_image(self.name)
+            #pico2d_extension.set_texture_color(Finn.image.texture, 255, 255, 255)
 
 
     def update(self):
+        if not self.frame_stop:
+            pico2d_extension.set_texture_color(Finn.image.texture, 255, 255, 255)
         CharacterData.update(self)
 
 

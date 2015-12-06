@@ -3,6 +3,7 @@ import character_data
 import pico2d
 import pico2d_extension
 import game_framework
+import finn_character
 
 
 def point_in_rect(px,py,rx,ry,rw,rh):
@@ -140,3 +141,5 @@ def collision_player_and_character(player, character):
         player.y += size[1]
 
         player.frame_stop = True
+        pico2d_extension.set_texture_color(finn_character.Finn.image.texture, 255, 0, 0)
+    

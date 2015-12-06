@@ -170,13 +170,18 @@ class MapData:
         else:
             pico2d_extension.set_color(255, 255, 0)
             for object in layer.objects:
-                gid = object.gid
-                tileset = self.to_tileset(gid)
-                if tileset is not None:
-                    rect = self.to_tileset_object_rect(object)
-                    tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1])
-                    if game_framework.debug:
-                        pico2d_extension.draw_rectangle(*rect)
+                
+                if object.visible:
+                    
+                    gid = object.gid
+                    tileset = self.to_tileset(gid)
+                    if tileset is not None:
+                        rect = self.to_tileset_object_rect(object)
+                        tileset.image.opacify(0.5)
+                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1])
+                        tileset.image.opacify(1.0)
+                        if game_framework.debug:
+                            pico2d_extension.draw_rectangle(*rect)
 
 
     def draw_image_layer(self, w, h, layer):

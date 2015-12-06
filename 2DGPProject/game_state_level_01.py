@@ -16,6 +16,7 @@ from pico2d_extension import *
 name = "GameStateLevel01"
 
 def enter():
+    
     global background_music 
     background_music = load_music('Resources/Musics/GameState.ogg')
     background_music.set_volume(64)
@@ -80,6 +81,7 @@ def update(frame_time):
     collision.collision_map_and_character(map, finn)
 
     collision_trigger_and_player()
+ 
     
 
 def draw(frame_time):
@@ -87,11 +89,13 @@ def draw(frame_time):
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
 
+    
     map.draw_ground()
     map.draw_hexagon_on_point(finn.x, finn.y)
+   
 
     finn.draw()
-
+    
     for cubchoo in cubchooes:
         cubchoo.draw()
 
@@ -99,6 +103,7 @@ def draw(frame_time):
         terrorlight.draw()
 
     map.draw_object()
+    
 
     pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
     back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
