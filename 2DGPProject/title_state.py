@@ -74,11 +74,16 @@ def update(frame_time):
 
     for cubchoo in cubchooes:
         cubchoo.update(frame_time)
-        collision.collision_map_and_character(map, cubchoo, frame_time)        
+        collision.collision_object_and_character(map, cubchoo, frame_time)
+        collision.collision_tile_and_character(map, cubchoo, frame_time)        
+        if not cubchoo.life:
+            cubchooes.remove(cubchoo)
     
     for terrorlight in terrorlights:
         terrorlight.update(frame_time)
-        collision.collision_map_and_character(map, terrorlight, frame_time) 
+        collision.collision_map_and_character(map, terrorlight, frame_time)
+        collision.collision_object_and_character(map, terrorlight, frame_time)
+        #collision.collision_tile_and_character(map, terrorlight, frame_time) 
 
     map.update(frame_time)
 

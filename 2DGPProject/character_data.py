@@ -24,7 +24,10 @@ class CharacterData(object):
         self.frame_stop = False
         self.state = CharacterData.CHARACTER_STATE_WAIT
         self.animations = []
+        self.collision = False
+        self.disappear_effect = False
         self.life = True
+        self.opacify = 1.0
         
         self.character_state_type = {
             CharacterData.CHARACTER_STATE_WAIT : self.character_state_wait,
@@ -75,6 +78,12 @@ class CharacterData(object):
             self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
             self.character_state_type[self.state](frame_time)
 
+        if self.disappear_effect:
+            self.opacify -= 1.0 * frame_time
+
+        if self.opacify < 0:
+            self.life = False
+
     
     def character_state_wait(self, frame_time):
         pass
@@ -118,6 +127,7 @@ class CharacterData(object):
 
     def draw(self, image):
         animation = self.animations[self.state]
+        image.opacify(self.opacify)
         image.clip_draw(animation.x + (self.frame * animation.framewidth), (image.h - animation.frameheight) - animation.y,
                         animation.framewidth, animation.frameheight,           
                         self.x, self.y,                                             

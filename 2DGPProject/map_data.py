@@ -7,9 +7,9 @@ import random
 
 class MapData:
 
-    disappear_wait_min_time = 10
-    disappear_wait_max_time = 30
-    disappear_frame_time = 0.1
+    disappear_wait_min_time = 1
+    disappear_wait_max_time = 3
+    disappear_frame_time = 0.01
 
     def __init__(self):
         # Number of tile columns

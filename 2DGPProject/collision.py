@@ -72,7 +72,34 @@ def get_intersect_size_hold_object_and_object(ho_left,ho_bottom,ho_right,ho_top,
 
 
 def collision_map_and_character(map, character, frame_time):
-  
+    if map.mapoffsetx > character.x or map.mapoffsetx + map.mapwidth < character.x or\
+        map.mapoffsety > character.y or map.mapoffsety + map.mapheight < character.y:
+        if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
+            character.x += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
+            character.x -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+            character.x += character.speed * frame_time
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+            character.x -= character.speed * frame_time
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+            character.y += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+            character.x += character.speed * frame_time
+            character.y += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+            character.x -= character.speed * frame_time
+            character.y += character.speed * frame_time
+
+        character.frame_stop = True
+
+
+def collision_tile_and_character(map, character, frame_time):
+
     hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
 
     x, y = hexagon_index
@@ -100,8 +127,15 @@ def collision_map_and_character(map, character, frame_time):
             character.x -= character.speed * frame_time
             character.y += character.speed * frame_time
 
+        if character.collision:
+            character.disappear_effect = True
+        character.collision = True
         character.frame_stop = True
+    else:
+        character.collision = False
 
+def collision_object_and_character(map, character, frame_time):
+  
     for object in map.collision_layer.objects:
 
         object_rect = map.to_object_rect(object)

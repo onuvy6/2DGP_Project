@@ -9,7 +9,7 @@ from character_data import *
 class Terrorlight(CharacterData):
 
     image = None
-    MPS = 10
+    MPS = 50
 
     def __init__(self):
         CharacterData.__init__(self)
@@ -19,6 +19,7 @@ class Terrorlight(CharacterData):
         self.x = random.randint(400, 500)
         self.y = random.randint(400, 500)
         self.speed = random.randint(3, 5) * Terrorlight.MPS
+        self.state_range = (2,3,7,8)
         self.state = random.randint(1,8)
 
         if Terrorlight.image is None:
@@ -27,8 +28,9 @@ class Terrorlight(CharacterData):
 
     def update(self, frame_time):
         CharacterData.update(self, frame_time)
+
         if self.frame_stop == True:
-            self.state = random.randint(1,8)
+            self.state = self.state_range[random.randint(0,3)]
             self.frame_stop = False
 
 

@@ -8,6 +8,7 @@ import cubchoo_character
 import terrorlight_character
 import pause_state
 import title_state
+import gameover_state
 
 from pico2d import *
 from pico2d_extension import *
@@ -65,21 +66,28 @@ def exit():
 
 
 def update(frame_time):
+ 
+    if finn.life:
+        finn.update(frame_time)
+        collision.collision_tile_and_character(map, finn, frame_time)
+        collision.collision_object_and_character(map, finn, frame_time)
+    else:
+        game_framework.push_state(gameover_state)
 
-    finn.update(frame_time)
-    
     for terrorlight in terrorlights:
         terrorlight.update(frame_time)
         collision.collision_player_and_character(finn, terrorlight)
         collision.collision_map_and_character(map, terrorlight, frame_time) 
+        collision.collision_object_and_character(map, terrorlight, frame_time)
 
     for cubchoo in cubchooes:
         cubchoo.update(frame_time) 
         collision.collision_player_and_character(finn, cubchoo)
-        collision.collision_map_and_character(map, cubchoo, frame_time) 
+        collision.collision_object_and_character(map, cubchoo, frame_time) 
+        collision.collision_tile_and_character(map, cubchoo, frame_time)
+        if cubchoo.opacify < 0:
+            cubchooes.remove(cubchoo)
     
-    collision.collision_map_and_character(map, finn, frame_time)
-
     map.update(frame_time)
 
     collision_trigger_and_player()
@@ -95,8 +103,8 @@ def draw(frame_time):
     map.draw_ground()
     map.draw_hexagon_on_point(finn.x, finn.y)
    
-
-    finn.draw()
+    if finn.life:
+        finn.draw()
     
     for cubchoo in cubchooes:
         cubchoo.draw()
