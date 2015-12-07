@@ -109,7 +109,11 @@ def update(frame_time):
 
     for cubchoo in cubchooes:
         cubchoo.update(frame_time) 
-        collision.collision_player_and_character(finn, cubchoo)
+        if finn.frame_stop:
+            collision.collision_player_and_character(finn, cubchoo)
+        else:
+            if collision.collision_player_and_character(cubchoo, finn):
+                finn.frame_stop = True
         collision.collision_object_and_character(map, cubchoo, frame_time) 
         collision.collision_tile_and_character(map, cubchoo, frame_time)
         if cubchoo.opacify < 0:
