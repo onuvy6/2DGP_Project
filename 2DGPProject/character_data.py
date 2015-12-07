@@ -24,6 +24,7 @@ class CharacterData(object):
         self.frame_stop = False
         self.state = CharacterData.CHARACTER_STATE_WAIT
         self.animations = []
+        self.life = True
         
         self.character_state_type = {
             CharacterData.CHARACTER_STATE_WAIT : self.character_state_wait,

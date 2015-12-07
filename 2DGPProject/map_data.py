@@ -43,6 +43,7 @@ class MapData:
         self.disappear_tile_col = 0
         self.disappear_tile_row = 0
         self.disappear_tile_time = 0.1
+        self.disappear_height = 0
 
         self.draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
@@ -120,12 +121,14 @@ class MapData:
             self.disappear_tile_time -= frame_time
             if self.disappear_tile_time < 0:
                 self.disappear_tile_time = 0.1
+                self.disappear_height -= 1
                 self.disappear_tile_opacify -= 0.1
                 if self.disappear_tile_opacify <= 0.0:
                     self.disappear_tile_opacify = 1.0
                     for layer in self.layers:
                         if layer.type == 'tilelayer':
                             layer.data[self.disappear_tile_col][self.disappear_tile_row] = 0
+                            self.disappear_height = 0
                             break
                     self.disappear_tile_start = self.get_disappear_next_tile()
             
@@ -178,17 +181,29 @@ class MapData:
         elif self.orientation == 'hexagonal':
             for y in reversed(range(layer.height)):
                 for x in (range(layer.width)):
+        
                     gid = layer.data[y][x]
                     if gid is 0:
                         continue
+
+                    disappear = False
+                    if x == self.disappear_tile_row and y == self.disappear_tile_col:
+                        disappear = True
+
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
-                        if (x == self.disappear_tile_row and y == self.disappear_tile_col):
+                        if disappear:
                             tileset.image.opacify(self.disappear_tile_opacify)
+
                         _x = self.mapoffsetx + (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
                         _y = self.mapoffsety + (y) * (tileset.tileheight // 2)
+
+                        if disappear:
+                            _y += self.disappear_height
+
                         tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)
-                        if (x == self.disappear_tile_row and y == self.disappear_tile_col):
+
+                        if disappear:
                             tileset.image.opacify(1.0)
 
         else:
