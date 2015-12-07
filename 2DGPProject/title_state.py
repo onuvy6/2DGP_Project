@@ -80,6 +80,8 @@ def update(frame_time):
         terrorlight.update()
         collision.collision_map_and_character(map, terrorlight) 
 
+    map.update(frame_time)
+
     for maple in maples:
         maple.update()
 

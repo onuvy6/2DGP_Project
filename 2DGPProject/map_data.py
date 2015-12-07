@@ -38,6 +38,12 @@ class MapData:
         # Auto-increments for each placed object
         self.nextobjectid = 0
 
+        self.disappear_tile_start = True
+        self.disappear_tile_opacify = 1.0
+        self.disappear_tile_col = 0
+        self.disappear_tile_row = 0
+        self.disappear_tile_time = 0.1
+
         self.draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
             'objectgroup'   : self.draw_object_layer,
@@ -80,6 +86,18 @@ class MapData:
                 tileset.tileheight)
 
 
+    def get_disappear_next_tile(self):
+        for layer in self.layers:
+            if layer.type == 'tilelayer':
+                for y in range(self.disappear_tile_col, layer.height):
+                     for x in range(0, layer.width):
+                         if layer.data[y][x] != 0:
+                             self.disappear_tile_col = y
+                             self.disappear_tile_row = x
+                             return True
+        return False          
+
+
     def to_tileset_object_rect(self, object):
         object_x = self.mapoffsetx + object.x
         object_y = self.mapoffsety + self.mapheight - object.y
@@ -97,9 +115,20 @@ class MapData:
                object_x + object.width, object_y + object.height
 
 
-    def update(self):
-        pass
-
+    def update(self, frame_time):
+        if self.disappear_tile_start:
+            self.disappear_tile_time -= frame_time
+            if self.disappear_tile_time < 0:
+                self.disappear_tile_time = 0.1
+                self.disappear_tile_opacify -= 0.1
+                if self.disappear_tile_opacify <= 0.0:
+                    self.disappear_tile_opacify = 1.0
+                    for layer in self.layers:
+                        if layer.type == 'tilelayer':
+                            layer.data[self.disappear_tile_col][self.disappear_tile_row] = 0
+                            break
+                    self.disappear_tile_start = self.get_disappear_next_tile()
+            
     
     def get_hexagon_index_from_point(self, x, y):
 
@@ -154,9 +183,14 @@ class MapData:
                         continue
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
+                        if (x == self.disappear_tile_row and y == self.disappear_tile_col):
+                            tileset.image.opacify(self.disappear_tile_opacify)
                         _x = self.mapoffsetx + (x) * tileset.tilewidth + ( (y + 1) % 2) * (tileset.tilewidth // 2)
                         _y = self.mapoffsety + (y) * (tileset.tileheight // 2)
-                        tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)   
+                        tileset.image.clip_draw(*self.to_rect(gid), x=_x, y=_y)
+                        if (x == self.disappear_tile_row and y == self.disappear_tile_col):
+                            tileset.image.opacify(1.0)
+
         else:
             pass
 
@@ -177,9 +211,7 @@ class MapData:
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
                         rect = self.to_tileset_object_rect(object)
-                        tileset.image.opacify(0.5)
                         tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1])
-                        tileset.image.opacify(1.0)
                         if game_framework.debug:
                             pico2d_extension.draw_rectangle(*rect)
 
