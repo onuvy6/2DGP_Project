@@ -66,19 +66,19 @@ def exit():
 
 def update(frame_time):
 
-    finn.update()
+    finn.update(frame_time)
     
     for terrorlight in terrorlights:
-        terrorlight.update()
+        terrorlight.update(frame_time)
         collision.collision_player_and_character(finn, terrorlight)
-        collision.collision_map_and_character(map, terrorlight) 
+        collision.collision_map_and_character(map, terrorlight, frame_time) 
 
     for cubchoo in cubchooes:
-        cubchoo.update() 
+        cubchoo.update(frame_time) 
         collision.collision_player_and_character(finn, cubchoo)
-        collision.collision_map_and_character(map, cubchoo) 
+        collision.collision_map_and_character(map, cubchoo, frame_time) 
     
-    collision.collision_map_and_character(map, finn)
+    collision.collision_map_and_character(map, finn, frame_time)
 
     collision_trigger_and_player()
  

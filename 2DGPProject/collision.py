@@ -71,7 +71,7 @@ def get_intersect_size_hold_object_and_object(ho_left,ho_bottom,ho_right,ho_top,
     return result_width, result_height
 
 
-def collision_map_and_character(map, character):
+def collision_map_and_character(map, character, frame_time):
     for layer in map.layers:
         if layer.type == 'tilelayer':
             hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
@@ -81,25 +81,25 @@ def collision_map_and_character(map, character):
             if (x < 0 or x >= map.width) or (y < 0 or y >= map.height) or layer.data[y][x] == 0:
     
                 if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
-                    character.x += character.speed
+                    character.x += character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                    character.x -= character.speed
+                    character.x -= character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
-                    character.y -= character.speed
+                    character.y -= character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
-                    character.x += character.speed
-                    character.y -= character.speed
+                    character.x += character.speed * frame_time
+                    character.y -= character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
-                    character.x -= character.speed
-                    character.y -= character.speed
+                    character.x -= character.speed * frame_time
+                    character.y -= character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
-                    character.y += character.speed
+                    character.y += character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
-                    character.x += character.speed
-                    character.y += character.speed
+                    character.x += character.speed * frame_time
+                    character.y += character.speed * frame_time
                 elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
-                    character.x -= character.speed
-                    character.y += character.speed
+                    character.x -= character.speed * frame_time
+                    character.y += character.speed * frame_time
 
                 character.frame_stop = True
 

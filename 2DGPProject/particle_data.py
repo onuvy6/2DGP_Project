@@ -1,4 +1,4 @@
-import json
+﻿import json
 import random
 from pico2d import *
 import pico2d_extension
@@ -23,8 +23,8 @@ class ParticleData(object):
                 self.y + (self.height * self.scale) // 2)
 
 
-    def update(self):
-        self.y -= self.speed
+    def update(self, frame_time):
+        self.y -= self.speed * frame_time
         if self.y < 0:
             self.y = game_framework.height + random.randint(0, 10)
 

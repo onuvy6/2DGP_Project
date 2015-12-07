@@ -73,20 +73,20 @@ def exit():
 def update(frame_time):
 
     for cubchoo in cubchooes:
-        cubchoo.update()
-        collision.collision_map_and_character(map, cubchoo)        
+        cubchoo.update(frame_time)
+        collision.collision_map_and_character(map, cubchoo, frame_time)        
     
     for terrorlight in terrorlights:
-        terrorlight.update()
-        collision.collision_map_and_character(map, terrorlight) 
+        terrorlight.update(frame_time)
+        collision.collision_map_and_character(map, terrorlight, frame_time) 
 
     map.update(frame_time)
 
     for maple in maples:
-        maple.update()
+        maple.update(frame_time)
 
     for snow in snows:
-        snow.update()
+        snow.update(frame_time)
 
 
 def draw(frame_time):

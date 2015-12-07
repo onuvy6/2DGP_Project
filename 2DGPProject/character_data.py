@@ -70,50 +70,50 @@ class CharacterData(object):
                 self.y + frameheight // 2)
 
 
-    def update(self):
+    def update(self, frame_time):
         if self.frame_stop == False:
             self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
-            self.character_state_type[self.state]()
+            self.character_state_type[self.state](frame_time)
 
     
-    def character_state_wait(self):
+    def character_state_wait(self, frame_time):
         pass
 
 
-    def character_state_walk_down(self):
-        self.y -= self.speed
+    def character_state_walk_down(self, frame_time):
+        self.y -= self.speed * frame_time
 
 
-    def character_state_walk_down_left(self):
-        self.character_state_walk_down()
-        self.character_state_walk_left()
+    def character_state_walk_down_left(self, frame_time):
+        self.character_state_walk_down(frame_time)
+        self.character_state_walk_left(frame_time)
 
 
-    def character_state_walk_down_right(self):
-        self.character_state_walk_down()
-        self.character_state_walk_right()
+    def character_state_walk_down_right(self, frame_time):
+        self.character_state_walk_down(frame_time)
+        self.character_state_walk_right(frame_time)
 
 
-    def character_state_walk_left(self):
-        self.x -= self.speed
+    def character_state_walk_left(self, frame_time):
+        self.x -= self.speed * frame_time
 
 
-    def character_state_walk_right(self):
-        self.x += self.speed
+    def character_state_walk_right(self, frame_time):
+        self.x += self.speed * frame_time
 
 
-    def character_state_walk_up(self):
-        self.y += self.speed
+    def character_state_walk_up(self, frame_time):
+        self.y += self.speed * frame_time
 
 
-    def character_state_walk_up_left(self):
-        self.character_state_walk_up()
-        self.character_state_walk_left()
+    def character_state_walk_up_left(self, frame_time):
+        self.character_state_walk_up(frame_time)
+        self.character_state_walk_left(frame_time)
 
 
-    def character_state_walk_up_right(self):
-        self.character_state_walk_up()
-        self.character_state_walk_right()
+    def character_state_walk_up_right(self, frame_time):
+        self.character_state_walk_up(frame_time)
+        self.character_state_walk_right(frame_time)
 
 
     def draw(self, image):
