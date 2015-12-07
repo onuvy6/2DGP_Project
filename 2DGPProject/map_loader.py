@@ -60,7 +60,7 @@ def load_map(name):
             layer_data.type = layer.get('type')
 
             # Whether layer is shown or hidden in editor
-            layer_data.visible = layer.get('type')
+            layer_data.visible = layer.get('visible')
 
             # Horizontal layer offset. Always 0 in Tiled Qt.
             layer_data.x = layer.get('x')
@@ -133,6 +133,14 @@ def load_map(name):
 
             # "topdown" (default) or "index". objectgroup only.
             layer_data.draworder = layer.get('draworder')
+
+             # 특정한 Layer을 MapData에 저장을 합니다.
+            if layer_data.type == 'tilelayer':
+                map_data.tile_layer = layer_data
+            elif layer_data.name == 'Collision Layer':
+                map_data.collision_layer = layer_data
+            elif layer_data.name == 'Trigger Layer':
+                map_data.trigger_layer = layer_data
 
             map_data.layers.append(layer_data)
 

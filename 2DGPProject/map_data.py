@@ -1,9 +1,15 @@
 ﻿import collision
+import pico2d
 import pico2d_extension
 import game_framework
+import random
 
 
 class MapData:
+
+    disappear_wait_min_time = 10
+    disappear_wait_max_time = 30
+    disappear_frame_time = 0.1
 
     def __init__(self):
         # Number of tile columns
@@ -27,6 +33,7 @@ class MapData:
 
         # Array of Layers
         self.layers = []
+   
         # Array of Tilesets
         self.tilesets = []
 
@@ -38,18 +45,26 @@ class MapData:
         # Auto-increments for each placed object
         self.nextobjectid = 0
 
-        self.disappear_tile_start = True
-        self.disappear_tile_opacify = 1.0
+        self.disappear_tile_exist = True
+    
         self.disappear_tile_col = 0
         self.disappear_tile_row = 0
-        self.disappear_tile_time = 0.1
+
         self.disappear_height = 0
+        self.disappear_tile_opacify = 1.0
+
+        self.disappear_tile_wait_time = random.randint(MapData.disappear_wait_min_time, MapData.disappear_wait_max_time) * 0.1
+        self.disappear_tile_remain_time = MapData.disappear_frame_time
 
         self.draw_layer_type = {
             'tilelayer'     : self.draw_tile_layer,
             'objectgroup'   : self.draw_object_layer,
             'imagelayer'    : self.draw_image_layer
         }
+
+        self.tile_layer = None
+        self.collision_layer = None
+        self.trigger_layer = None
 
 
     def to_tileset(self, gid):
@@ -63,11 +78,9 @@ class MapData:
 
 
     def to_trigger(self, name):
-        for layer in self.layers:
-            if layer.name == 'Trigger Layer':
-                for object in layer.objects:
-                    if object.name == name:
-                        return object
+        for object in self.trigger_layer.objects:
+            if object.name == name:
+                return object
         return None
 
 
@@ -87,15 +100,35 @@ class MapData:
                 tileset.tileheight)
 
 
+    def is_tile_on_object(self,x,y):
+        for object in self.collision_layer.objects:
+            object_rect = self.to_object_rect(object)
+            
+            tile_rect = (
+                self.mapoffsetx + x * self.tilewidth + ( (y+1) % 2 ) * (self.tilewidth // 2),
+                self.mapoffsety + (y) * (self.tileheight // 2),
+                self.mapoffsetx + (x+1) * self.tilewidth + ( (y+1) % 2 ) * (self.tilewidth // 2),
+                self.mapoffsety + (y+1) * (self.tileheight // 2),
+                )
+
+            if collision.rect_in_rect(*(object_rect+tile_rect)):
+                return True
+
+        return False
+
+
     def get_disappear_next_tile(self):
-        for layer in self.layers:
-            if layer.type == 'tilelayer':
-                for y in range(self.disappear_tile_col, layer.height):
-                     for x in range(0, layer.width):
-                         if layer.data[y][x] != 0:
-                             self.disappear_tile_col = y
-                             self.disappear_tile_row = x
-                             return True
+        for y in range(self.disappear_tile_col, self.tile_layer.height):
+                for x in range(0, self.tile_layer.width):
+                    if self.tile_layer.data[y][x] != 0:
+
+                        # 해당 Tile 위에 Object가 있다면 처리하지 않습니다.
+                        if self.is_tile_on_object(x,y):
+                            continue
+                                 
+                        self.disappear_tile_col = y
+                        self.disappear_tile_row = x
+                        return True
         return False          
 
 
@@ -117,20 +150,27 @@ class MapData:
 
 
     def update(self, frame_time):
-        if self.disappear_tile_start:
-            self.disappear_tile_time -= frame_time
-            if self.disappear_tile_time < 0:
-                self.disappear_tile_time = 0.1
-                self.disappear_height -= 1
-                self.disappear_tile_opacify -= 0.1
-                if self.disappear_tile_opacify <= 0.0:
-                    self.disappear_tile_opacify = 1.0
-                    for layer in self.layers:
-                        if layer.type == 'tilelayer':
-                            layer.data[self.disappear_tile_col][self.disappear_tile_row] = 0
-                            self.disappear_height = 0
-                            break
-                    self.disappear_tile_start = self.get_disappear_next_tile()
+        if self.disappear_tile_exist:
+
+            self.disappear_tile_wait_time -= frame_time
+            if self.disappear_tile_wait_time < 0:
+
+                self.disappear_tile_remain_time -= frame_time
+                if self.disappear_tile_remain_time < 0:
+
+                    self.disappear_tile_remain_time = MapData.disappear_frame_time
+
+                    self.disappear_height -= 1
+                    self.disappear_tile_opacify -= 0.1
+
+                    if self.disappear_tile_opacify <= 0.0:
+                        self.disappear_tile_opacify = 1.0
+                        self.disappear_height = 0
+
+                        self.tile_layer.data[self.disappear_tile_col][self.disappear_tile_row] = 0
+                        self.disappear_tile_wait_time = random.randint(MapData.disappear_wait_min_time, MapData.disappear_wait_max_time) * 0.1
+                               
+                        self.disappear_tile_exist = self.get_disappear_next_tile()
             
     
     def get_hexagon_index_from_point(self, x, y):
@@ -160,9 +200,7 @@ class MapData:
         
 
     def draw_ground(self):
-        for layer in self.layers:
-            if layer.type == 'tilelayer':
-                self.draw_layer_type[layer.type](layer)
+        self.draw_layer_type[self.tile_layer.type](self.tile_layer)
 
 
     def draw_object(self):
@@ -219,9 +257,7 @@ class MapData:
         else:
             pico2d_extension.set_color(255, 255, 0)
             for object in layer.objects:
-                
                 if object.visible:
-                    
                     gid = object.gid
                     tileset = self.to_tileset(gid)
                     if tileset is not None:

@@ -72,55 +72,50 @@ def get_intersect_size_hold_object_and_object(ho_left,ho_bottom,ho_right,ho_top,
 
 
 def collision_map_and_character(map, character, frame_time):
-    for layer in map.layers:
-        if layer.type == 'tilelayer':
-            hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
+  
+    hexagon_index = map.get_hexagon_index_from_point(character.x, character.y)
 
-            x, y = hexagon_index
+    x, y = hexagon_index
             
-            if (x < 0 or x >= map.width) or (y < 0 or y >= map.height) or layer.data[y][x] == 0:
+    if (x < 0 or x >= map.width) or (y < 0 or y >= map.height) or map.tile_layer.data[y][x] == 0:
     
-                if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
-                    character.x += character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
-                    character.x -= character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
-                    character.y -= character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
-                    character.x += character.speed * frame_time
-                    character.y -= character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
-                    character.x -= character.speed * frame_time
-                    character.y -= character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
-                    character.y += character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
-                    character.x += character.speed * frame_time
-                    character.y += character.speed * frame_time
-                elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
-                    character.x -= character.speed * frame_time
-                    character.y += character.speed * frame_time
+        if character.state == character_data.CharacterData.CHARACTER_STATE_WALK_LEFT:
+            character.x += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_RIGHT:
+            character.x -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP:
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_LEFT:
+            character.x += character.speed * frame_time
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_UP_RIGHT:
+            character.x -= character.speed * frame_time
+            character.y -= character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN:
+            character.y += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_LEFT:
+            character.x += character.speed * frame_time
+            character.y += character.speed * frame_time
+        elif character.state == character_data.CharacterData.CHARACTER_STATE_WALK_DOWN_RIGHT:
+            character.x -= character.speed * frame_time
+            character.y += character.speed * frame_time
 
-                character.frame_stop = True
+        character.frame_stop = True
 
-        # objectgroup
-        elif layer.type == 'objectgroup':
-            if layer.name == 'Collision Layer':
-                for object in layer.objects:
+    for object in map.collision_layer.objects:
 
-                    object_rect = map.to_object_rect(object)
-                    character_rect = character.to_rect()
+        object_rect = map.to_object_rect(object)
+        character_rect = character.to_rect()
 
-                    size = get_intersect_size_hold_object_and_object(*(object_rect + character_rect))
+        size = get_intersect_size_hold_object_and_object(*(object_rect + character_rect))
 
-                    if size != (0, 0):
+        if size != (0, 0):
 
-                        character.x += size[0]
-                        character.y += size[1]
+            character.x += size[0]
+            character.y += size[1]
 
-                        character.frame_stop = True
-
-                        break      
+            character.frame_stop = True
+            break      
 
 
 def collision_player_and_character(player, character):

@@ -13,6 +13,8 @@ class ParticleData(object):
         self.width = 0
         self.height = 0
         self.speed = 0
+        self.min_speed = 0
+        self.max_speed = 0
         self.scale = 1.0
         
 
@@ -26,7 +28,8 @@ class ParticleData(object):
     def update(self, frame_time):
         self.y -= self.speed * frame_time
         if self.y < 0:
-            self.y = game_framework.height + random.randint(0, 10)
+            self.y = game_framework.height + random.randint(0, 30)
+            self.speed = random.randint(self.min_speed, self.max_speed)
 
 
     def draw(self, image):

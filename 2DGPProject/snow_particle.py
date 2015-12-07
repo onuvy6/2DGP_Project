@@ -20,9 +20,11 @@ class Snow(ParticleData):
             Snow.image = pico2d.load_image('Resources/Particles/Snow.png')
             
         self.x = random.randint(0, game_framework.width)
-        self.y = game_framework.height + random.randint(0, 10)
+        self.y = game_framework.height + random.randint(0, 30)
         self.type = random.randint(0,1)
-        self.speed = Snow.MPS + random.randint(1,5) * Snow.MPS
+        self.min_speed = Snow.MPS
+        self.max_speed = Snow.MPS * 5
+        self.speed = random.randint(self.min_speed, self.max_speed)
         self.scale = random.randint(1,5) * 0.1
         self.width = Snow.image.w
         self.height = Snow.image.h

@@ -23,8 +23,10 @@ class Maple(ParticleData):
         self.x = random.randint(0, game_framework.width)
         self.y = game_framework.height + random.randint(0, 10)
         self.type = random.randint(0,1)
-        self.speed = random.randint(1,2) * Maple.MPS
-        self.scale = random.randint(5,15) * 0.1
+        self.min_speed = Maple.MPS
+        self.max_speed = Maple.MPS * 2
+        self.speed = random.randint(self.min_speed, self.max_speed)
+        self.scale = random.randint(5,10) * 0.1
         self.width = Maple.images[self.type].w
         self.height = Maple.images[self.type].h
 
@@ -32,7 +34,7 @@ class Maple(ParticleData):
         self.angle = 0
         
     def update(self, frame_time):
-        self.angle = (self.angle + 1) % 360
+        self.angle = (self.angle + self.speed * frame_time) % 360
         self.x = self.origin_x + 10 * self.speed * frame_time * math.sin(math.radians(self.angle))
 
         ParticleData.update(self, frame_time)

@@ -80,6 +80,8 @@ def update(frame_time):
     
     collision.collision_map_and_character(map, finn, frame_time)
 
+    map.update(frame_time)
+
     collision_trigger_and_player()
  
     

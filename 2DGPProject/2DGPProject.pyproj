@@ -46,6 +46,12 @@
     <Compile Include="game_state.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="game_state_level_02.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="game_state_level_03.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="particle_data.py">
       <SubType>Code</SubType>
     </Compile>
