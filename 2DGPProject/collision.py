@@ -131,8 +131,10 @@ def collision_tile_and_character(map, character, frame_time):
             character.disappear_effect = True
         character.collision = True
         character.frame_stop = True
+
     else:
         character.collision = False
+
 
 def collision_object_and_character(map, character, frame_time):
   
@@ -168,7 +170,11 @@ def collision_player_and_character(player, character):
     if size != (0, 0):
         player.x += size[0]
         player.y += size[1]
-
+        
         player.frame_stop = True
         pico2d_extension.set_texture_color(finn_character.Finn.image.texture, 255, 0, 0)
+
+        return True
+
+    return False
     

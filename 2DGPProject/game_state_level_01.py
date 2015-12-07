@@ -8,7 +8,6 @@ import cubchoo_character
 import terrorlight_character
 import pause_state
 import title_state
-import gameover_state
 
 from pico2d import *
 from pico2d_extension import *
@@ -16,8 +15,15 @@ from pico2d_extension import *
 
 name = "GameStateLevel01"
 
+
 def enter():
-    
+
+    global game_play, game_over, game_clear
+    game_play = True
+    game_over = False
+    game_clear = False
+
+
     global background_music 
     background_music = load_music('Resources/Musics/GameState.ogg')
     background_music.set_volume(64)
@@ -25,6 +31,12 @@ def enter():
 
     global background_image
     background_image = load_image('Resources/States/Background_01.png')
+
+    global background_gameover
+    background_gameover = load_image('Resources/States/GameOverState.png')
+
+    global background_gameclear
+    background_gameclear = load_image('Resources/States/GameClearState.png')
 
     global pause_image
     pause_image = load_image('Resources/Images/Pause.png')
@@ -54,6 +66,10 @@ def exit():
     del (pause_image)
     del (back_image)
 
+    global background_gameover, background_gameclear
+    del (background_gameover)
+    del (background_gameclear)
+
     global map
     del (map)
 
@@ -64,19 +80,30 @@ def exit():
     del (cubchooes)
     del (terrorlights)
 
+    global game_play, game_over, game_clear
+    del (game_play)
+    del (game_over)
+    del (game_clear)
+
 
 def update(frame_time):
+    global game_play, game_over, game_clear
+    if not game_play:
+        return
  
     if finn.life:
         finn.update(frame_time)
         collision.collision_tile_and_character(map, finn, frame_time)
         collision.collision_object_and_character(map, finn, frame_time)
     else:
-        game_framework.push_state(gameover_state)
+        game_play = False
+        game_over = True
 
     for terrorlight in terrorlights:
         terrorlight.update(frame_time)
-        collision.collision_player_and_character(finn, terrorlight)
+        if collision.collision_player_and_character(finn, terrorlight):
+            if finn.speed > 30:
+                finn.speed -= 10
         collision.collision_map_and_character(map, terrorlight, frame_time) 
         collision.collision_object_and_character(map, terrorlight, frame_time)
 
@@ -95,6 +122,8 @@ def update(frame_time):
     
 
 def draw(frame_time):
+     
+    global game_play, game_over, game_clear
     clear_canvas()
 
     background_image.draw(game_framework.width//2, game_framework.height//2)
@@ -114,14 +143,21 @@ def draw(frame_time):
 
     map.draw_object()
     
-
-    pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
-    back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
-
+    if game_play:
+        pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
+        back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
+    elif game_over:
+        background_gameover.draw(game_framework.width//2, game_framework.height//2)
+        back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
+    elif game_clear:
+        background_gameclear.draw(game_framework.width//2, game_framework.height//2)
+        
     update_canvas()
 
 
 def handle_events(frame_time):
+
+    global game_play, game_over, game_clear
     events = get_events()
     for event in events:
         if event.type == SDL_KEYDOWN:
@@ -134,14 +170,16 @@ def handle_events(frame_time):
                 finn.frame_stop = True
 
         elif event.type == SDL_MOUSEBUTTONDOWN:
-            if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                    game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
-                                    pause_image.w, pause_image.h):
-                game_framework.push_state(pause_state)
-            elif collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                    back_image.w // 2, game_framework.height - back_image.h // 2,
-                                    back_image.w, back_image.h):
-                game_framework.change_state(title_state)
+            if game_play:
+                if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                       game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
+                                        pause_image.w, pause_image.h):
+                    game_framework.push_state(pause_state)
+            if game_play or game_over:
+                if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                        back_image.w // 2, game_framework.height - back_image.h // 2,
+                                        back_image.w, back_image.h):
+                    game_framework.change_state(title_state)
 
 
 def pause():

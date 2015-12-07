@@ -43,9 +43,6 @@
     <Compile Include="cubchoo_character.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gameover_state.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="game_state.py">
       <SubType>Code</SubType>
     </Compile>

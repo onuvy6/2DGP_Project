@@ -8,7 +8,7 @@ from character_data import *
 class Finn(CharacterData):
 
     image = None
-    MPS = 50
+    MPS = 100
 
     def __init__(self):
         CharacterData.__init__(self)
@@ -27,6 +27,8 @@ class Finn(CharacterData):
     def update(self, frame_time):
         if not self.frame_stop:
             pico2d_extension.set_texture_color(Finn.image.texture, 255, 255, 255)
+        if self.speed < 100:
+            self.speed += 10 * frame_time
         CharacterData.update(self, frame_time)
 
 
