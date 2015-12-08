@@ -10,7 +10,7 @@ logo_time = 0.0
 
 def enter():
     global image
-    open_canvas(game_framework.width, game_framework.height)
+    open_canvas(game_framework.width, game_framework.height, True)
     image = load_image('Resources/States/kpu_credit.png')
 
 

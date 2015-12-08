@@ -9,6 +9,7 @@ import cubchoo_character
 import terrorlight_character
 import maple_particle
 import snow_particle
+import cloud_particle
 
 from pico2d import *
 from pico2d_extension import *
@@ -46,6 +47,9 @@ def enter():
     global snows
     snows = [snow_particle.Snow() for i in range(50)]
 
+    global clouds
+    clouds = [cloud_particle.Cloud() for i in range(10)]
+
 
 def exit():
     global background_music
@@ -65,9 +69,10 @@ def exit():
     del (cubchooes)
     del (terrorlights)
 
-    global maples, snows
+    global maples, snows, clouds
     del(maples)
     del(snows)
+    del(clouds)
 
 
 def update(frame_time):
@@ -93,6 +98,9 @@ def update(frame_time):
     for snow in snows:
         snow.update(frame_time)
 
+    for cloud in clouds:
+        cloud.update(frame_time)
+
 
 def draw(frame_time):
     clear_canvas()
@@ -114,6 +122,9 @@ def draw(frame_time):
 
     for snow in snows:
         snow.draw()
+
+    for cloud in clouds:
+        cloud.draw()
 
     game_start_image.draw(game_framework.width // 2, game_framework.height * 0.3)
     exit_image.draw(game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2)

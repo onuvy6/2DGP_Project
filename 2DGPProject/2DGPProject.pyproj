@@ -37,10 +37,19 @@
     <Compile Include="character_data.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="cloud_particle.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="collision.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="cubchoo_character.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="effect_data.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="effect_handler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="game_state.py">
