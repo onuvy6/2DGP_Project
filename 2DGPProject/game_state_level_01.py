@@ -9,6 +9,11 @@ import terrorlight_character
 import pause_state
 import title_state
 
+import effect_handler
+import warp_effect
+import damage_effect
+import push_effect
+
 from pico2d import *
 from pico2d_extension import *
 
@@ -56,6 +61,9 @@ def enter():
     global terrorlights
     terrorlights = [terrorlight_character.Terrorlight() for i in range(5)]
 
+    global effects
+    effects = effect_handler.EffectHandler()
+
 
 def exit():
     global background_music 
@@ -85,12 +93,15 @@ def exit():
     del (game_over)
     del (game_clear)
 
+    global effects
+    del (effects)
+
 
 def update(frame_time):
     global game_play, game_over, game_clear
     if not game_play:
         return
- 
+        
     if finn.life:
         finn.update(frame_time)
         collision.collision_tile_and_character(map, finn, frame_time)
@@ -98,27 +109,43 @@ def update(frame_time):
     else:
         game_play = False
         game_over = True
-
+        
+        
     for terrorlight in terrorlights:
         terrorlight.update(frame_time)
+        
         if collision.collision_player_and_character(finn, terrorlight):
+            effect_x = min(finn.x, terrorlight.x) + abs(finn.x - terrorlight.x) // 2
+            effect_y = min(finn.y, terrorlight.y) + abs(finn.y - terrorlight.y) // 2
+            effects.add_effect(damage_effect.DamageEffect(effect_x, effect_y))
             if finn.speed > 30:
                 finn.speed -= 10
+                
         collision.collision_map_and_character(map, terrorlight, frame_time) 
         collision.collision_object_and_character(map, terrorlight, frame_time)
-
+        
     for cubchoo in cubchooes:
         cubchoo.update(frame_time) 
+        
         if finn.frame_stop:
-            collision.collision_player_and_character(finn, cubchoo)
+            if collision.collision_player_and_character(finn, cubchoo):
+                effect_x = min(finn.x, cubchoo.x) + abs(finn.x - cubchoo.x) // 2
+                effect_y = min(finn.y, cubchoo.y) + abs(finn.y - cubchoo.y) // 2
+                effects.add_effect(damage_effect.DamageEffect(effect_x, effect_y))
         else:
             if collision.collision_player_and_character(cubchoo, finn):
+                effect_x = min(finn.x, cubchoo.x) + abs(finn.x - cubchoo.x) // 2
+                effect_y = min(finn.y, cubchoo.y) + abs(finn.y - cubchoo.y) // 2
+                effects.add_effect(push_effect.PushEffect(effect_x, effect_y))
                 finn.frame_stop = True
+                
         collision.collision_object_and_character(map, cubchoo, frame_time) 
         collision.collision_tile_and_character(map, cubchoo, frame_time)
         if cubchoo.opacify < 0:
             cubchooes.remove(cubchoo)
     
+    effects.update(frame_time)
+
     map.update(frame_time)
 
     collision_trigger_and_player()
@@ -134,19 +161,21 @@ def draw(frame_time):
 
     
     map.draw_ground()
-    map.draw_hexagon_on_point(finn.x, finn.y)
+    #map.draw_hexagon_on_point(finn.x, finn.y)
    
     if finn.life:
         finn.draw()
-    
+   
     for cubchoo in cubchooes:
         cubchoo.draw()
 
     for terrorlight in terrorlights:
         terrorlight.draw()
-
+   
     map.draw_object()
-    
+  
+    effects.draw()
+
     if game_play:
         pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
         back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
@@ -155,7 +184,7 @@ def draw(frame_time):
         back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
     elif game_clear:
         background_gameclear.draw(game_framework.width//2, game_framework.height//2)
-        
+       
     update_canvas()
 
 
@@ -207,8 +236,11 @@ def collision_trigger_and_player():
 
                 if object.name == 'PortalA':
                     if collision.rect_in_rect(*(player_rect + object_rect)):
+                        effects.add_effect(warp_effect.WarpEffect(finn.x, finn.y))
+                        
                         portalB = map.to_trigger('PortalB')
                         portalB_rect = map.to_object_rect(portalB)
+                        effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
                         finn.x, finn.y = portalB_rect[0], portalB_rect[1]
                 #elif object.name == 'PortalB':
                 #    if collision.rect_in_rect(*(player_rect + object_rect)):

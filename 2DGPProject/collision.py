@@ -131,9 +131,11 @@ def collision_tile_and_character(map, character, frame_time):
             character.disappear_effect = True
         character.collision = True
         character.frame_stop = True
-
+        return True
     else:
         character.collision = False
+    return False
+
 
 
 def collision_object_and_character(map, character, frame_time):
@@ -151,7 +153,9 @@ def collision_object_and_character(map, character, frame_time):
             character.y += size[1]
 
             character.frame_stop = True
-            break      
+            return True
+
+    return False
 
 
 def collision_player_and_character(player, character):
@@ -160,12 +164,6 @@ def collision_player_and_character(player, character):
     character_rect  = character.to_rect()
 
     size = get_intersect_size_hold_object_and_object(*(character_rect + player_rect))
-
-    if not game_framework.debug:
-        rect = get_intersect_rect(*(character_rect + player_rect))
-        pico2d_extension.set_color(255, 0, 0)
-        pico2d_extension.draw_rectangle(*rect)
-        pico2d.update_canvas()
 
     if size != (0, 0):
         player.x += size[0]

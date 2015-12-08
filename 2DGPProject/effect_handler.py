@@ -14,7 +14,7 @@ class EffectHandler(object):
 
 
     def draw(self):
-        for effect in effects:
+        for effect in self.effects:
             effect.draw()
 
 

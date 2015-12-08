@@ -1,0 +1,7 @@
+{
+	"image": "Resources\\Effects\\Push.png",
+	"framewidth": 20,
+    "frameheight": 25,
+    "framecount": 2,
+	"time": 0.5
+}

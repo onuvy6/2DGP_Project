@@ -10,6 +10,10 @@ import terrorlight_character
 import maple_particle
 import snow_particle
 import cloud_particle
+import effect_handler
+import damage_effect
+import push_effect
+import warp_effect
 
 from pico2d import *
 from pico2d_extension import *
@@ -34,6 +38,9 @@ def enter():
 
     global map
     map = map_loader.load_map('Resources/Maps/Title.json')
+
+    global effects
+    effects = effect_handler.EffectHandler()
 
     global cubchooes
     cubchooes = [cubchoo_character.Cubchoo() for i in range(3)]
@@ -65,6 +72,9 @@ def exit():
     global map
     del (map)
 
+    global effects
+    del (effects)
+    
     global cubchooes, terrorlights
     del (cubchooes)
     del (terrorlights)
@@ -101,6 +111,8 @@ def update(frame_time):
     for cloud in clouds:
         cloud.update(frame_time)
 
+    effects.update(frame_time)
+
 
 def draw(frame_time):
     clear_canvas()
@@ -116,6 +128,8 @@ def draw(frame_time):
         terrorlight.draw()
 
     map.draw_object()
+    
+    effects.draw()
 
     for maple in maples:
         maple.draw()

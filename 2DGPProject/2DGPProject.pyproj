@@ -46,6 +46,9 @@
     <Compile Include="cubchoo_character.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="damage_effect.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="effect_data.py">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +98,9 @@
     <Compile Include="pico2d_extension.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="push_effect.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="snow_particle.py">
       <SubType>Code</SubType>
     </Compile>
@@ -105,6 +111,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="title_state.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="warp_effect.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

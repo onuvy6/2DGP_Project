@@ -1,0 +1,7 @@
+{
+	"image": "Resources\\Effects\\Warp.png",
+	"framewidth": 48,
+    "frameheight": 41,
+    "framecount": 3,
+	"time": 0.3
+}

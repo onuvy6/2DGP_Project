@@ -1,0 +1,7 @@
+{
+	"image": "Resources\\Effects\\Damage.png",
+	"framewidth": 43,
+    "frameheight": 36,
+    "framecount": 5,
+	"time": 0.2
+}
