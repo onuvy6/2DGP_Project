@@ -92,12 +92,14 @@
     <Compile Include="pause_state.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pico2d.py" />
     <Compile Include="pico2d_extension.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="push_effect.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="setup.py" />
     <Compile Include="snow_particle.py">
       <SubType>Code</SubType>
     </Compile>
