@@ -6,8 +6,13 @@ import character_data
 import finn_character
 import cubchoo_character
 import terrorlight_character
+
 import pause_state
 import title_state
+
+import maple_particle
+import snow_particle
+import cloud_particle
 
 import effect_handler
 import warp_effect
@@ -63,16 +68,26 @@ def enter():
     finn.x, finn.y = start.x, map.mapoffsety + map.mapheight - start.y
 
     global cubchooes, cubchoo_respone_time_A, cubchoo_respone_time_B
-    cubchooes = [cubchoo_character.Cubchoo()]
+    cubchooes = []
     cubchoo_respone_time_A = 3.0
-    cubchoo_respone_time_B = 10.0
+    cubchoo_respone_time_B = 5.0
     
     global terrorlights, terrorlight_respone_time
-    terrorlights = [terrorlight_character.Terrorlight()]
-    terrorlight_respone_time = 10.0
+    terrorlights = []
+    terrorlight_respone_time = 7.0
 
     global effects
     effects = effect_handler.EffectHandler()
+
+    global maples
+    maples = [maple_particle.Maple() for i in range(10)]
+
+    '''
+    global snows
+    snows = [snow_particle.Snow() for i in range(50)]
+    '''
+    global clouds
+    clouds = [cloud_particle.Cloud() for i in range(10)]
 
 
 def exit():
@@ -112,6 +127,11 @@ def exit():
     global effects
     del (effects)
 
+    global maples, snows, clouds
+    del(maples)
+    #del(snows)
+    del(clouds)
+
 
 def update(frame_time):
     global game_play, game_over, game_clear
@@ -140,9 +160,8 @@ def update(frame_time):
         collision.collision_map_and_character(map, terrorlight, frame_time) 
         collision.collision_object_and_character(map, terrorlight, frame_time)
     
-    terrorlights_count = 0
-    terrorlights.count(terrorlights_count)
-    if terrorlights_count <= 5:
+
+    if len(terrorlights) <= 5:
         global terrorlight_respone_time
         terrorlight_respone_time -= frame_time
         if terrorlight_respone_time < 0:
@@ -172,9 +191,7 @@ def update(frame_time):
         if cubchoo.opacify < 0:
             cubchooes.remove(cubchoo)
     
-    cubchooes_count = 0
-    cubchooes.count(cubchooes_count)
-    if cubchooes_count <= 10:
+    if len(cubchooes) <= 10:
         global cubchoo_respone_time_A
         cubchoo_respone_time_A -= frame_time
         if cubchoo_respone_time_A < 0:
@@ -196,6 +213,17 @@ def update(frame_time):
     effects.update(frame_time)
 
     map.update(finn, frame_time)
+
+    for maple in maples:
+        maple.update(frame_time)
+
+    '''
+    for snow in snows:
+        snow.update(frame_time)
+    '''
+
+    for cloud in clouds:
+        cloud.update(frame_time)
 
     collision_trigger_and_player()
  
@@ -226,6 +254,15 @@ def draw(frame_time):
   
     effects.draw()
 
+    for maple in maples:
+        maple.draw()
+    '''
+    for snow in snows:
+        snow.draw()
+    '''
+    for cloud in clouds:
+        cloud.draw()
+
     if game_play:
         pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
         back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
@@ -248,6 +285,9 @@ def handle_events(frame_time):
             state = finn.get_state_from_key(event.key)
             if state is not None:
                 finn.change_state(state)
+            else:
+                if event.key == SDLK_1:
+                    game_framework.change_state(game_state_level_02)
 
         elif event.type == SDL_KEYUP:
             if event.key == finn.get_key_from_state():

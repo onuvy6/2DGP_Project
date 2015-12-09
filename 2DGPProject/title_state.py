@@ -7,9 +7,11 @@ import character_data
 import finn_character
 import cubchoo_character
 import terrorlight_character
+
 import maple_particle
 import snow_particle
 import cloud_particle
+
 import effect_handler
 import damage_effect
 import push_effect
@@ -49,11 +51,11 @@ def enter():
     terrorlights = [terrorlight_character.Terrorlight() for i in range(3)]
 
     global maples
-    maples = [maple_particle.Maple() for i in range(10)]
-
+    maples = [maple_particle.Maple() for i in range(30)]
+    '''
     global snows
     snows = [snow_particle.Snow() for i in range(50)]
-
+    '''
     global clouds
     clouds = [cloud_particle.Cloud() for i in range(10)]
 
@@ -81,7 +83,7 @@ def exit():
 
     global maples, snows, clouds
     del(maples)
-    del(snows)
+    #del(snows)
     del(clouds)
 
 
@@ -105,8 +107,10 @@ def update(frame_time):
     for maple in maples:
         maple.update(frame_time)
 
+    '''
     for snow in snows:
         snow.update(frame_time)
+    '''
 
     for cloud in clouds:
         cloud.update(frame_time)
@@ -133,10 +137,10 @@ def draw(frame_time):
 
     for maple in maples:
         maple.draw()
-
+    '''
     for snow in snows:
         snow.draw()
-
+    '''
     for cloud in clouds:
         cloud.draw()
 

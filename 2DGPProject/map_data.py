@@ -275,7 +275,7 @@ class MapData:
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
                         rect = self.to_tileset_object_rect(object)
-                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1])
+                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1], W=object.width, H=object.height)
                         if game_framework.debug:
                             pico2d_extension.draw_rectangle(*rect)
 

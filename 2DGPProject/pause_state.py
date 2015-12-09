@@ -15,6 +15,15 @@ def enter():
     global pause_image
     pause_image = load_image('Resources/Images/Pause.png')
 
+    # 최초 1회만 이전의 화면과 배경을 그립니다.
+    clear_canvas()
+    game_framework.stack[1].draw(0.0)
+    background_image.draw(game_framework.width//2, game_framework.height//2)
+
+    pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
+
+    update_canvas()
+
 
 def exit():
     global background_image
@@ -29,15 +38,7 @@ def update(frame_time):
 
 
 def draw(frame_time):
-    clear_canvas()
-
-
-    game_framework.stack[1].draw(frame_time)
-    background_image.draw(game_framework.width//2, game_framework.height//2)
-
-    pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
-
-    update_canvas()
+    pass
 
 
 def handle_events(frame_time):
