@@ -62,11 +62,14 @@ def enter():
     start = map.to_trigger('Start')
     finn.x, finn.y = start.x, map.mapoffsety + map.mapheight - start.y
 
-    global cubchooes
-    cubchooes = [cubchoo_character.Cubchoo() for i in range(1)]
+    global cubchooes, cubchoo_respone_time_A, cubchoo_respone_time_B
+    cubchooes = [cubchoo_character.Cubchoo()]
+    cubchoo_respone_time_A = 3.0
+    cubchoo_respone_time_B = 10.0
     
-    global terrorlights
-    terrorlights = [terrorlight_character.Terrorlight() for i in range(0)]
+    global terrorlights, terrorlight_respone_time
+    terrorlights = [terrorlight_character.Terrorlight()]
+    terrorlight_respone_time = 10.0
 
     global effects
     effects = effect_handler.EffectHandler()
@@ -92,9 +95,14 @@ def exit():
     global finn
     del (finn)
 
-    global cubchooes, terrorlights
+    global cubchooes, cubchoo_respone_time_A, cubchoo_respone_time_B
     del (cubchooes)
+    del (cubchoo_respone_time_A)
+    del (cubchoo_respone_time_B)
+    
+    global terrorlights, terrorlight_respone_time
     del (terrorlights)
+    del (terrorlight_respone_time)
 
     global game_play, game_over, game_clear
     del (game_play)
@@ -131,7 +139,19 @@ def update(frame_time):
                 
         collision.collision_map_and_character(map, terrorlight, frame_time) 
         collision.collision_object_and_character(map, terrorlight, frame_time)
-        
+    
+    terrorlights_count = 0
+    terrorlights.count(terrorlights_count)
+    if terrorlights_count <= 5:
+        global terrorlight_respone_time
+        terrorlight_respone_time -= frame_time
+        if terrorlight_respone_time < 0:
+            object = map.to_trigger('Respone-C')
+            terrorlight = terrorlight_character.Terrorlight()
+            terrorlight.x, terrorlight.y = object.x, map.mapoffsety + map.mapheight - object.y
+            terrorlights.append(terrorlight)
+            terrorlight_respone_time = 7.0
+
     for cubchoo in cubchooes:
         cubchoo.update(frame_time) 
         
@@ -152,6 +172,27 @@ def update(frame_time):
         if cubchoo.opacify < 0:
             cubchooes.remove(cubchoo)
     
+    cubchooes_count = 0
+    cubchooes.count(cubchooes_count)
+    if cubchooes_count <= 10:
+        global cubchoo_respone_time_A
+        cubchoo_respone_time_A -= frame_time
+        if cubchoo_respone_time_A < 0:
+            object = map.to_trigger('Respone-A')
+            cubchoo = cubchoo_character.Cubchoo()
+            cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
+            cubchooes.append(cubchoo)
+            cubchoo_respone_time_A = 3.0
+
+        global cubchoo_respone_time_B
+        cubchoo_respone_time_B -= frame_time
+        if cubchoo_respone_time_B < 0:
+            object = map.to_trigger('Respone-B')
+            cubchoo = cubchoo_character.Cubchoo()
+            cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
+            cubchooes.append(cubchoo)
+            cubchoo_respone_time_B = 5.0
+
     effects.update(frame_time)
 
     map.update(finn, frame_time)
