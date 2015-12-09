@@ -1,6 +1,7 @@
 ﻿import pico2d
 import pico2d_extension
 import game_framework
+import random
 
 from character_data import *
 
@@ -8,6 +9,7 @@ from character_data import *
 class Finn(CharacterData):
 
     image = None
+    sounds = None
     MPS = 100
 
     def __init__(self):
@@ -18,10 +20,24 @@ class Finn(CharacterData):
         self.x = 320
         self.y = 480
         self.speed = Finn.MPS
+        self.frame_time = 0.05
 
         if Finn.image is None:
             Finn.image = pico2d.load_image(self.name)
             #pico2d_extension.set_texture_color(Finn.image.texture, 255, 255, 255)
+        if Finn.sounds is None:
+            Finn.sounds = []
+            damage_sound = pico2d.load_wav('Resources/Sounds/Damage01.wav')
+            damage_sound.set_volume(32)
+            Finn.sounds.append(damage_sound)
+            
+            damage_sound = pico2d.load_wav('Resources/Sounds/Damage02.wav')
+            damage_sound.set_volume(32)
+            Finn.sounds.append(damage_sound)
+
+            damage_sound = pico2d.load_wav('Resources/Sounds/Damage03.wav')
+            damage_sound.set_volume(32)
+            Finn.sounds.append(damage_sound)
 
 
     def update(self, frame_time):
@@ -36,6 +52,10 @@ class Finn(CharacterData):
         CharacterData.draw(self, Finn.image)
         if game_framework.debug:
             CharacterData.draw_rect(self, 0, 255, 0)
+
+
+    def play_hit_sound(self):
+        Finn.sounds[random.randint(0,2)].play()
 
 
     def is_valid_key(self, key):

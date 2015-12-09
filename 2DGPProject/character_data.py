@@ -21,6 +21,8 @@ class CharacterData(object):
         self.y = 0
         self.speed = 0
         self.frame = 0
+        self.frame_time = 0.1
+        self.remain_frame_time = self.frame_time
         self.frame_stop = False
         self.state = CharacterData.CHARACTER_STATE_WAIT
         self.animations = []
@@ -76,7 +78,10 @@ class CharacterData(object):
 
     def update(self, frame_time):
         if not self.frame_stop:
-            self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
+            self.remain_frame_time -= frame_time
+            if self.remain_frame_time < 0:
+                self.remain_frame_time = self.frame_time
+                self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
             self.character_state_type[self.state](frame_time)
 
         if self.disappear_effect:

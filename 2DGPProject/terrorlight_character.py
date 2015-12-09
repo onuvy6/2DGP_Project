@@ -21,6 +21,7 @@ class Terrorlight(CharacterData):
         self.speed = random.randint(3, 5) * Terrorlight.MPS
         self.state_range = (2,3,7,8)
         self.state = random.randint(1,8)
+        self.frame_time = 0.05
 
         if Terrorlight.image is None:
             Terrorlight.image = pico2d.load_image(self.name)

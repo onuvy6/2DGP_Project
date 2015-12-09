@@ -36,10 +36,16 @@ def enter():
     game_clear = False
 
 
-    global background_music 
+    global background_music, game_clear_music, game_over_music 
     background_music = load_music('Resources/Musics/GameState.ogg')
     background_music.set_volume(64)
     background_music.repeat_play()
+
+    game_clear_music = load_music('Resources/Musics/GameClear.ogg')
+    game_clear_music.set_volume(64)
+
+    game_over_music = load_music('Resources/Musics/GameOver.ogg')
+    game_over_music.set_volume(64)
 
     global background_image
     background_image = load_image('Resources/States/Background_01.png')
@@ -91,8 +97,10 @@ def enter():
 
 
 def exit():
-    global background_music 
+    global background_music, game_clear_music, game_over_music
     del (background_music)
+    del (game_clear_music)
+    del (game_over_music)
 
     global background_image, pause_image, back_image, next_image
     del (background_image)
@@ -143,6 +151,8 @@ def update(frame_time):
         collision.collision_tile_and_character(map, finn, frame_time)
         collision.collision_object_and_character(map, finn, frame_time)
     else:
+        background_music.stop()
+        game_over_music.repeat_play()
         game_play = False
         game_over = True
         
@@ -154,6 +164,7 @@ def update(frame_time):
             effect_x = min(finn.x, terrorlight.x) + abs(finn.x - terrorlight.x) // 2
             effect_y = min(finn.y, terrorlight.y) + abs(finn.y - terrorlight.y) // 2
             effects.add_effect(damage_effect.DamageEffect(effect_x, effect_y))
+            finn.play_hit_sound()
             if finn.speed > 30:
                 finn.speed -= 10
                 
@@ -179,11 +190,13 @@ def update(frame_time):
                 effect_x = min(finn.x, cubchoo.x) + abs(finn.x - cubchoo.x) // 2
                 effect_y = min(finn.y, cubchoo.y) + abs(finn.y - cubchoo.y) // 2
                 effects.add_effect(damage_effect.DamageEffect(effect_x, effect_y))
+                finn.play_hit_sound()
         else:
             if collision.collision_player_and_character(cubchoo, finn):
                 effect_x = min(finn.x, cubchoo.x) + abs(finn.x - cubchoo.x) // 2
                 effect_y = min(finn.y, cubchoo.y) + abs(finn.y - cubchoo.y) // 2
                 effects.add_effect(push_effect.PushEffect(effect_x, effect_y))
+                cubchoo_character.Cubchoo.hit_sound.play()
                 finn.frame_stop = True
                 
         collision.collision_object_and_character(map, cubchoo, frame_time) 
@@ -199,6 +212,7 @@ def update(frame_time):
             cubchoo = cubchoo_character.Cubchoo()
             cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
             cubchooes.append(cubchoo)
+            cubchoo_character.Cubchoo.respone_sound.play()
             cubchoo_respone_time_A = 3.0
 
         global cubchoo_respone_time_B
@@ -208,6 +222,7 @@ def update(frame_time):
             cubchoo = cubchoo_character.Cubchoo()
             cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
             cubchooes.append(cubchoo)
+            cubchoo_character.Cubchoo.respone_sound.play()
             cubchoo_respone_time_B = 5.0
 
     effects.update(frame_time)
@@ -334,11 +349,16 @@ def collision_trigger_and_player():
                 portalB_rect = map.to_object_rect(portalB)
                 effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
                 finn.x, finn.y = portalB_rect[0], portalB_rect[1]
+
+                warp_effect.WarpEffect.sound.play()
+
         elif object.name == 'Home':
             if collision.rect_in_rect(*(player_rect + object_rect)):
                 global game_play, game_clear
                 game_play = False
                 game_clear = True
+                background_music.stop()
+                game_clear_music.repeat_play()
 
         #elif object.name == 'PortalB':
         #    if collision.rect_in_rect(*(player_rect + object_rect)):
