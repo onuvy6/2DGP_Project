@@ -154,7 +154,7 @@ def update(frame_time):
     
     effects.update(frame_time)
 
- #   map.update(frame_time)
+    map.update(finn, frame_time)
 
     collision_trigger_and_player()
  
@@ -169,7 +169,8 @@ def draw(frame_time):
 
     
     map.draw_ground()
-    #map.draw_hexagon_on_point(finn.x, finn.y)
+    if game_framework.debug:
+        map.draw_hexagon_on_point(finn.x, finn.y)
    
     if finn.life:
         finn.draw()

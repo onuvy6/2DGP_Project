@@ -75,7 +75,7 @@ class CharacterData(object):
 
 
     def update(self, frame_time):
-        if self.frame_stop == False:
+        if not self.frame_stop:
             self.frame = (self.frame + 1) % (self.animations[self.state].framecount)
             self.character_state_type[self.state](frame_time)
 

@@ -7,9 +7,9 @@ import random
 
 class MapData:
 
-    disappear_wait_min_time = 1
-    disappear_wait_max_time = 3
-    disappear_frame_time = 0.01
+    disappear_wait_min_time = 0
+    disappear_wait_max_time = 0
+    disappear_frame_time = 0.1
 
     def __init__(self):
         # Number of tile columns
@@ -101,34 +101,48 @@ class MapData:
 
 
     def is_tile_on_object(self,x,y):
+        
+        tile_x = self.mapoffsetx + ( ((y+1) % 2) * self.tilewidth // 2 ) + (x * self.tilewidth) - (self.tilewidth // 2)
+        tile_y = self.mapoffsety + ( y * (self.tileheight // 2))
+
+        tile_rect = (
+            tile_x,
+            tile_y - (self.tileheight // 4),
+            tile_x + self.tilewidth,
+            tile_y + (self.tileheight // 2)
+            )
+
         for object in self.collision_layer.objects:
             object_rect = self.to_object_rect(object)
             
-            tile_rect = (
-                self.mapoffsetx + x * self.tilewidth + ( (y+1) % 2 ) * (self.tilewidth // 2),
-                self.mapoffsety + (y) * (self.tileheight // 2),
-                self.mapoffsetx + (x+1) * self.tilewidth + ( (y+1) % 2 ) * (self.tilewidth // 2),
-                self.mapoffsety + (y+1) * (self.tileheight // 2),
-                )
-
             if collision.rect_in_rect(*(object_rect+tile_rect)):
+                return True
+
+        for object in self.trigger_layer.objects:
+
+            object_rect = self.to_object_rect(object)
+            
+            if collision.rect_in_rect(*(object_rect+tile_rect)):   
                 return True
 
         return False
 
 
-    def get_disappear_next_tile(self):
-        for y in range(self.disappear_tile_col, self.tile_layer.height):
-                for x in range(0, self.tile_layer.width):
-                    if self.tile_layer.data[y][x] != 0:
+    def get_disappear_next_tile(self, player):
+        #for y in range(self.disappear_tile_col, self.tile_layer.height):
+        #        for x in range(0, self.tile_layer.width):
+        x,y = self.get_hexagon_index_from_point(player.x, player.y)
+        if self.tile_layer.data[y][x] != 0:
 
-                        # 해당 Tile 위에 Object가 있다면 처리하지 않습니다.
-                        if self.is_tile_on_object(x,y):
-                            continue
+            # 해당 Tile 위에 Object가 있다면 처리하지 않습니다.
+            if self.is_tile_on_object(x,y):
+                return False
                                  
-                        self.disappear_tile_col = y
-                        self.disappear_tile_row = x
-                        return True
+            self.disappear_tile_col = y
+            self.disappear_tile_row = x
+
+            return True
+
         return False          
 
 
@@ -148,9 +162,8 @@ class MapData:
                object_x + object.width, object_y + object.height
 
 
-    def update(self, frame_time):
-        if self.disappear_tile_exist:
-
+    def update(self, player, frame_time):
+       
             self.disappear_tile_wait_time -= frame_time
             if self.disappear_tile_wait_time < 0:
 
@@ -169,7 +182,7 @@ class MapData:
                         self.tile_layer.data[self.disappear_tile_col][self.disappear_tile_row] = 0
                         self.disappear_tile_wait_time = random.randint(MapData.disappear_wait_min_time, MapData.disappear_wait_max_time) * 0.1
                                
-                        self.disappear_tile_exist = self.get_disappear_next_tile()
+                        self.get_disappear_next_tile(player)
             
     
     def get_hexagon_index_from_point(self, x, y):
@@ -250,9 +263,10 @@ class MapData:
     def draw_object_layer(self, layer):
         if layer.name == 'Collision Layer' or \
             layer.name == 'Trigger Layer':
-            pico2d_extension.set_color(127, 127, 127)
-            for object in layer.objects:
-                pico2d_extension.draw_rectangle(*self.to_object_rect(object))
+            if game_framework.debug:
+                pico2d_extension.set_color(127, 127, 127)
+                for object in layer.objects:
+                    pico2d_extension.draw_rectangle(*self.to_object_rect(object))
         else:
             pico2d_extension.set_color(255, 255, 0)
             for object in layer.objects:

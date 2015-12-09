@@ -402,7 +402,7 @@
  </objectgroup>
  <objectgroup name="Collision Layer">
   <object id="116" x="52" y="279.333" width="4" height="8"/>
-  <object id="117" x="202.667" y="466" width="4.66667" height="7.33333"/>
+  <object id="117" name="T" x="202.667" y="466" width="4.66667" height="7.33333"/>
   <object id="118" x="418" y="457.333" width="4.66667" height="7.33333"/>
   <object id="119" x="648" y="412" width="4" height="15.3333"/>
   <object id="120" x="143.333" y="170" width="4.66667" height="8.66667"/>

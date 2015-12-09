@@ -3,7 +3,7 @@
 
 width   = 640
 height  = 960
-debug = True
+debug = False
 
 class GameState:
     def __init__(self, state):
