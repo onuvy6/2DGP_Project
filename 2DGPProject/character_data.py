@@ -67,10 +67,11 @@ class CharacterData(object):
         animation   = self.animations[self.state]
         framewidth  = animation.framewidth
         frameheight = animation.frameheight
-        return (self.x - framewidth // 2,   \
+        return (self.x - framewidth // 4,   \
                 self.y - frameheight // 2,  \
-                self.x + framewidth // 2,   \
-                self.y + frameheight // 2)
+                self.x + framewidth // 4,   \
+                self.y)
+                #self.y + frameheight // 2)
 
 
     def update(self, frame_time):

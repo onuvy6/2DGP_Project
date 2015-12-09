@@ -133,7 +133,7 @@ class MapData:
 
 
     def to_tileset_object_rect(self, object):
-        object_x = self.mapoffsetx + object.x
+        object_x = self.mapoffsetx + object.x - (self.tilewidth // 2 )
         object_y = self.mapoffsety + self.mapheight - object.y
 
         return object_x, object_y, \
@@ -141,8 +141,7 @@ class MapData:
 
 
     def to_object_rect(self, object):
-
-        object_x = self.mapoffsetx + object.x
+        object_x = self.mapoffsetx + object.x - (self.tilewidth // 2)
         object_y = self.mapoffsety + self.mapheight - object.y - object.height
 
         return object_x, object_y, \

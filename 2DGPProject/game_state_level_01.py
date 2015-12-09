@@ -14,6 +14,8 @@ import warp_effect
 import damage_effect
 import push_effect
 
+import game_state_level_02
+
 from pico2d import *
 from pico2d_extension import *
 
@@ -49,17 +51,22 @@ def enter():
     global back_image
     back_image = load_image('Resources/Images/Back.png')
 
+    global next_image
+    next_image = load_image('Resources/Images/Next.png')
+
     global map
     map = map_loader.load_map('Resources/Maps/Level_01.json')
 
     global finn
     finn = finn_character.Finn()
+    start = map.to_trigger('Start')
+    finn.x, finn.y = start.x, map.mapoffsety + map.mapheight - start.y
 
     global cubchooes
-    cubchooes = [cubchoo_character.Cubchoo() for i in range(10)]
+    cubchooes = [cubchoo_character.Cubchoo() for i in range(1)]
     
     global terrorlights
-    terrorlights = [terrorlight_character.Terrorlight() for i in range(5)]
+    terrorlights = [terrorlight_character.Terrorlight() for i in range(0)]
 
     global effects
     effects = effect_handler.EffectHandler()
@@ -69,10 +76,11 @@ def exit():
     global background_music 
     del (background_music)
 
-    global background_image, pause_image, back_image
+    global background_image, pause_image, back_image, next_image
     del (background_image)
     del (pause_image)
     del (back_image)
+    del (next_image)
 
     global background_gameover, background_gameclear
     del (background_gameover)
@@ -146,7 +154,7 @@ def update(frame_time):
     
     effects.update(frame_time)
 
-    map.update(frame_time)
+ #   map.update(frame_time)
 
     collision_trigger_and_player()
  
@@ -184,6 +192,7 @@ def draw(frame_time):
         back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
     elif game_clear:
         background_gameclear.draw(game_framework.width//2, game_framework.height//2)
+        next_image.draw(game_framework.width - next_image.w // 2, game_framework.height - next_image.h // 2)
        
     update_canvas()
 
@@ -213,6 +222,11 @@ def handle_events(frame_time):
                                         back_image.w // 2, game_framework.height - back_image.h // 2,
                                         back_image.w, back_image.h):
                     game_framework.change_state(title_state)
+            elif game_clear:
+                if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                       game_framework.width - next_image.w // 2, game_framework.height - next_image.h // 2,
+                                        next_image.w, next_image.h):
+                    game_framework.change_state(game_state_level_02)
 
 
 def pause():
@@ -224,26 +238,28 @@ def resume():
 
 
 def collision_trigger_and_player():
+    
+    for object in map.trigger_layer.objects:
 
-    for layer in map.layers:
+        object_rect = map.to_object_rect(object)
+        player_rect = finn.to_rect()
 
-        if layer.name == 'Trigger Layer':
-
-            for object in layer.objects:
-
-                object_rect = map.to_object_rect(object)
-                player_rect = finn.to_rect()
-
-                if object.name == 'PortalA':
-                    if collision.rect_in_rect(*(player_rect + object_rect)):
-                        effects.add_effect(warp_effect.WarpEffect(finn.x, finn.y))
+        if object.name == 'Warp-A':
+            if collision.rect_in_rect(*(player_rect + object_rect)):
+                effects.add_effect(warp_effect.WarpEffect(finn.x, finn.y))
                         
-                        portalB = map.to_trigger('PortalB')
-                        portalB_rect = map.to_object_rect(portalB)
-                        effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
-                        finn.x, finn.y = portalB_rect[0], portalB_rect[1]
-                #elif object.name == 'PortalB':
-                #    if collision.rect_in_rect(*(player_rect + object_rect)):
-                #        portalA = map.to_trigger('PortalA')
-                #        portalA_rect = map.to_object_rect(portalA)
-                #        finn.x, finn.y = portalA_rect[0], portalA_rect[1]
+                portalB = map.to_trigger('Warp-B')
+                portalB_rect = map.to_object_rect(portalB)
+                effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
+                finn.x, finn.y = portalB_rect[0], portalB_rect[1]
+        elif object.name == 'Home':
+            if collision.rect_in_rect(*(player_rect + object_rect)):
+                global game_play, game_clear
+                game_play = False
+                game_clear = True
+
+        #elif object.name == 'PortalB':
+        #    if collision.rect_in_rect(*(player_rect + object_rect)):
+        #        portalA = map.to_trigger('PortalA')
+        #        portalA_rect = map.to_object_rect(portalA)
+        #        finn.x, finn.y = portalA_rect[0], portalA_rect[1]
