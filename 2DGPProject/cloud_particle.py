@@ -1,4 +1,4 @@
-import random
+﻿import random
 import math
 import pico2d
 
@@ -56,4 +56,4 @@ class Cloud(ParticleData):
             self.x = (Cloud.image_half_width * self.scale) + pico2d.get_canvas_width()
         else:
             self.x = -(Cloud.image_half_width * self.scale)
-        self.y = random.randint(7, 10) * 0.1 * pico2d.get_canvas_height()
+        self.y = random.randint(8, 10) * 0.1 * pico2d.get_canvas_height()

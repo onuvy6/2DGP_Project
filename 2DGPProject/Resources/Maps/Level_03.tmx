@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="hexagonal" renderorder="right-down" width="16" height="20" tilewidth="40" tileheight="54" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="240">
+<map version="1.0" orientation="hexagonal" renderorder="right-down" width="16" height="20" tilewidth="40" tileheight="54" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="241">
  <tileset firstgid="1" name="bridgeTiles" tilewidth="40" tileheight="54" tilecount="2">
   <image source="../Tilesets/bridgeTiles.png" width="80" height="54"/>
  </tileset>
@@ -330,8 +330,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="73"/>
+   <tile gid="0"/>
    <tile gid="75"/>
-   <tile gid="73"/>
    <tile gid="73"/>
    <tile gid="73"/>
    <tile gid="73"/>
@@ -403,11 +403,12 @@
   <object id="236" x="300.667" y="205.333" width="36.6667" height="18"/>
   <object id="237" x="458" y="204.667" width="39.3333" height="19.3333"/>
   <object id="238" x="564.667" y="501.333" width="38.6667" height="18"/>
-  <object id="239" x="460" y="375.333" width="38.6667" height="18"/>
+  <object id="239" x="460" y="360.667" width="40" height="18"/>
+  <object id="240" x="477.333" y="380.667" width="21.3333" height="20.6667"/>
  </objectgroup>
  <objectgroup name="Trigger Layer">
-  <object id="91" name="Home" x="460" y="378.667" width="16" height="22.6667"/>
-  <object id="96" name="Start" x="30.333" y="525.667" width="11" height="10.6667"/>
+  <object id="91" name="Home" x="464.667" y="378.667" width="11.3333" height="17.3333"/>
+  <object id="96" name="Start" x="73.9997" y="529" width="11" height="10.6667"/>
   <object id="134" name="Warp-A" x="21.6667" y="463" width="34" height="32"/>
   <object id="135" name="Warp-D" x="186.667" y="415.667" width="5.66667" height="5.33333"/>
   <object id="136" name="Respone-B" x="155.667" y="467.667" width="10.6667" height="12"/>

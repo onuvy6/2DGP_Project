@@ -58,7 +58,7 @@ def enter():
     next_image = load_image('Resources/Images/Next.png')
 
     global map
-    map = map_loader.load_map('Resources/Maps/Level_01.json')
+    map = map_loader.load_map('Resources/Maps/Level_03.json')
 
     global finn
     finn = finn_character.Finn()
@@ -67,23 +67,24 @@ def enter():
 
     global cubchooes, cubchoo_respone_time_A, cubchoo_respone_time_B
     cubchooes = [cubchoo_character.Cubchoo()]
-    cubchoo_respone_time_A = 3.0
-    cubchoo_respone_time_B = 10.0
+    cubchoo_respone_time_A = 0.0
+    cubchoo_respone_time_B = 0.0
     
     global terrorlights, terrorlight_respone_time
     terrorlights = [terrorlight_character.Terrorlight()]
-    terrorlight_respone_time = 10.0
+    terrorlight_respone_time = 0.0
 
     global effects
     effects = effect_handler.EffectHandler()
 
+    '''
     global maples
     maples = [maple_particle.Maple() for i in range(10)]
-
     '''
+
     global snows
     snows = [snow_particle.Snow() for i in range(50)]
-    '''
+    
     global clouds
     clouds = [cloud_particle.Cloud() for i in range(10)]
 
@@ -126,8 +127,8 @@ def exit():
     del (effects)
 
     global maples, snows, clouds
-    del(maples)
-    #del(snows)
+    #del(maples)
+    del(snows)
     del(clouds)
 
 
@@ -159,11 +160,17 @@ def update(frame_time):
         collision.collision_object_and_character(map, terrorlight, frame_time)
     
 
-    if len(terrorlights) <= 5:
+    if len(terrorlights) <= 10:
         global terrorlight_respone_time
         terrorlight_respone_time -= frame_time
         if terrorlight_respone_time < 0:
             object = map.to_trigger('Respone-C')
+            terrorlight = terrorlight_character.Terrorlight()
+            terrorlight.x, terrorlight.y = object.x, map.mapoffsety + map.mapheight - object.y
+            terrorlights.append(terrorlight)
+            terrorlight_respone_time = 7.0
+
+            object = map.to_trigger('Respone-D')
             terrorlight = terrorlight_character.Terrorlight()
             terrorlight.x, terrorlight.y = object.x, map.mapoffsety + map.mapheight - object.y
             terrorlights.append(terrorlight)
@@ -189,7 +196,7 @@ def update(frame_time):
         if cubchoo.opacify < 0:
             cubchooes.remove(cubchoo)
     
-    if len(cubchooes) <= 10:
+    if len(cubchooes) <= 20:
         global cubchoo_respone_time_A
         cubchoo_respone_time_A -= frame_time
         if cubchoo_respone_time_A < 0:
@@ -197,28 +204,39 @@ def update(frame_time):
             cubchoo = cubchoo_character.Cubchoo()
             cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
             cubchooes.append(cubchoo)
-            cubchoo_respone_time_A = 3.0
 
-        global cubchoo_respone_time_B
-        cubchoo_respone_time_B -= frame_time
-        if cubchoo_respone_time_B < 0:
             object = map.to_trigger('Respone-B')
             cubchoo = cubchoo_character.Cubchoo()
             cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
             cubchooes.append(cubchoo)
-            cubchoo_respone_time_B = 5.0
+
+            cubchoo_respone_time_A = 15.0
+
+        global cubchoo_respone_time_B
+        cubchoo_respone_time_B -= frame_time
+        if cubchoo_respone_time_B < 0:
+            object = map.to_trigger('Respone-C')
+            cubchoo = cubchoo_character.Cubchoo()
+            cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
+            cubchooes.append(cubchoo)
+
+            object = map.to_trigger('Respone-D')
+            cubchoo = cubchoo_character.Cubchoo()
+            cubchoo.x, cubchoo.y = object.x, map.mapoffsety + map.mapheight - object.y
+            cubchooes.append(cubchoo)
+
+            cubchoo_respone_time_B = 3.0
 
     effects.update(frame_time)
 
     map.update(finn, frame_time)
 
+    '''
     for maple in maples:
         maple.update(frame_time)
-
     '''
     for snow in snows:
         snow.update(frame_time)
-    '''
 
     for cloud in clouds:
         cloud.update(frame_time)
@@ -252,12 +270,13 @@ def draw(frame_time):
   
     effects.draw()
 
+    '''
     for maple in maples:
         maple.draw()
     '''
     for snow in snows:
         snow.draw()
-    '''
+ 
     for cloud in clouds:
         cloud.draw()
 
@@ -329,6 +348,16 @@ def collision_trigger_and_player():
                 portalB_rect = map.to_object_rect(portalB)
                 effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
                 finn.x, finn.y = portalB_rect[0], portalB_rect[1]
+
+        elif object.name == 'Warp-C':
+            if collision.rect_in_rect(*(player_rect + object_rect)):
+                effects.add_effect(warp_effect.WarpEffect(finn.x, finn.y))
+                        
+                portalB = map.to_trigger('Warp-D')
+                portalB_rect = map.to_object_rect(portalB)
+                effects.add_effect(warp_effect.WarpEffect(portalB_rect[0], portalB_rect[1]))
+                finn.x, finn.y = portalB_rect[0], portalB_rect[1]
+
         elif object.name == 'Home':
             if collision.rect_in_rect(*(player_rect + object_rect)):
                 global game_play, game_clear

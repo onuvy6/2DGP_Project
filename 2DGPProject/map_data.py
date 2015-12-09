@@ -117,11 +117,9 @@ class MapData:
             
             if collision.rect_in_rect(*(object_rect+tile_rect)):
                 return True
-
+        
         for object in self.trigger_layer.objects:
-
             object_rect = self.to_object_rect(object)
-            
             if collision.rect_in_rect(*(object_rect+tile_rect)):   
                 return True
 
@@ -275,7 +273,7 @@ class MapData:
                     tileset = self.to_tileset(gid)
                     if tileset is not None:
                         rect = self.to_tileset_object_rect(object)
-                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1], W=object.width, H=object.height)
+                        tileset.image.clip_draw_to_origin(*self.to_rect(gid), x=rect[0], y=rect[1], w=object.width, h=object.height)
                         if game_framework.debug:
                             pico2d_extension.draw_rectangle(*rect)
 
