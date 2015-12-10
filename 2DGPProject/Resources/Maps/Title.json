@@ -114,22 +114,6 @@
                  "y":168
                 }, 
                 {
-                 "gid":86,
-                 "height":69,
-                 "id":102,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":20,
-                 "x":188,
-                 "y":192
-                }, 
-                {
                  "gid":87,
                  "height":55,
                  "id":103,
@@ -779,21 +763,6 @@
                  "width":4,
                  "x":175,
                  "y":175
-                }, 
-                {
-                 "height":11,
-                 "id":143,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":3,
-                 "x":195,
-                 "y":183
                 }, 
                 {
                  "height":43,

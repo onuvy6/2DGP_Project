@@ -45,10 +45,10 @@ def enter():
     effects = effect_handler.EffectHandler()
 
     global cubchooes
-    cubchooes = [cubchoo_character.Cubchoo() for i in range(3)]
+    cubchooes = [cubchoo_character.Cubchoo() for i in range(10)]
 
     global terrorlights
-    terrorlights = [terrorlight_character.Terrorlight() for i in range(3)]
+    terrorlights = [terrorlight_character.Terrorlight() for i in range(5)]
 
     global maples
     maples = [maple_particle.Maple() for i in range(30)]
