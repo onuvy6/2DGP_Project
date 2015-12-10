@@ -75,7 +75,7 @@ def enter():
 
     global cubchooes, cubchoo_respone_time_A, cubchoo_respone_time_B
     cubchooes = []
-    cubchoo_respone_time_A = 3.0
+    cubchoo_respone_time_A = 5.0
     cubchoo_respone_time_B = 5.0
     
     global terrorlights, terrorlight_respone_time
