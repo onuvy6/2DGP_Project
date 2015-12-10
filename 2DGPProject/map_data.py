@@ -130,6 +130,9 @@ class MapData:
         #for y in range(self.disappear_tile_col, self.tile_layer.height):
         #        for x in range(0, self.tile_layer.width):
         x,y = self.get_hexagon_index_from_point(player.x, player.y)
+        if x < 0 or y < 0 or x >= self.width or y >= self.height:
+            return False
+
         if self.tile_layer.data[y][x] != 0:
 
             # 해당 Tile 위에 Object가 있다면 처리하지 않습니다.
