@@ -34,8 +34,8 @@ class Maple(ParticleData):
         self.angle = 0
         
     def update(self, frame_time):
-        self.angle = (self.angle + self.speed * frame_time) % 360
-        self.x = self.origin_x + 10 * self.speed * frame_time * math.sin(math.radians(self.angle))
+        self.angle = self.angle + (self.speed * frame_time) % 360
+        self.x = self.origin_x +  self.speed * 0.5 * math.cos(math.radians(self.angle))
 
         ParticleData.update(self, frame_time)
 

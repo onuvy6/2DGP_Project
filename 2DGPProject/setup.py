@@ -80,7 +80,6 @@ manifest_template = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 
 mygame = Target(
-    #script = " ".join([f for f in os.listdir('./') if f.endswith('py')]),
     script = "2DGPProject.py",
     dest_base = "MyGame",
     icon_resources=[(1, r"pico2d.ico")],
