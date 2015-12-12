@@ -1,13 +1,3 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
-/2DGPProject/Sources/title_state.py
-/2DGPProject/Sources/tile_data.py
-/2DGPProject/Sources/terrorlight.py
-/2DGPProject/Sources/player.py
-/2DGPProject/Sources/pico2d_ext.py
-/2DGPProject/Sources/logo_state.py
-/2DGPProject/Sources/game_state.py
-/2DGPProject/Sources/game_framework.py
-/2DGPProject/Sources/enemy.py
