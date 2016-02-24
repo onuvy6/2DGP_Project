@@ -20,7 +20,7 @@ def enter():
     game_framework.stack[1].draw(0.0)
     background_image.draw(game_framework.width//2, game_framework.height//2)
 
-    pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
+    pause_image.draw(game_framework.width - pause_image.w // 2 - 10, game_framework.height - pause_image.h // 2 - 10)
 
     update_canvas()
 
@@ -46,7 +46,7 @@ def handle_events(frame_time):
     for event in events:
         if event.type == SDL_MOUSEBUTTONDOWN:
             if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                    game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
+                                    game_framework.width - pause_image.w // 2 - 10, game_framework.height - pause_image.h // 2 - 10,
                                     pause_image.w, pause_image.h):
                 game_framework.pop_state()
                 break

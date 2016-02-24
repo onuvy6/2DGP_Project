@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="hexagonal" renderorder="right-down" width="16" height="20" tilewidth="40" tileheight="54" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="162">
+<map version="1.0" orientation="hexagonal" renderorder="right-down" width="16" height="20" tilewidth="40" tileheight="54" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="164">
  <tileset firstgid="1" name="bridgeTiles" tilewidth="40" tileheight="54" tilecount="2">
   <image source="../Tilesets/bridgeTiles.png" width="80" height="54"/>
  </tileset>

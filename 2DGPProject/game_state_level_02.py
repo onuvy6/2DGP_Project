@@ -19,6 +19,7 @@ import warp_effect
 import damage_effect
 import push_effect
 
+import game_state_level_02
 import game_state_level_03
 
 from pico2d import *
@@ -65,6 +66,9 @@ def enter():
     global next_image
     next_image = load_image('Resources/Images/Next.png')
 
+    global retry_image
+    retry_image = load_image('Resources/Images/Retry.png')
+
     global map
     map = map_loader.load_map('Resources/Maps/Level_02.json')
 
@@ -102,11 +106,12 @@ def exit():
     del (game_clear_music)
     del (game_over_music)
 
-    global background_image, pause_image, back_image, next_image
+    global background_image, pause_image, back_image, next_image, retry_image
     del (background_image)
     del (pause_image)
     del (back_image)
     del (next_image)
+    del (retry_image)
 
     global background_gameover, background_gameclear
     del (background_gameover)
@@ -279,14 +284,16 @@ def draw(frame_time):
         cloud.draw()
 
     if game_play:
-        pause_image.draw(game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2)
-        back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
+        pause_image.draw(game_framework.width - pause_image.w // 2 - 10, game_framework.height - pause_image.h // 2 - 10)
+        back_image.draw(back_image.w // 2 + 10, game_framework.height - back_image.h // 2 - 10)
     elif game_over:
         background_gameover.draw(game_framework.width//2, game_framework.height//2)
-        back_image.draw(back_image.w // 2, game_framework.height - back_image.h // 2)
+        back_image.draw (game_framework.width // 2 - back_image.w , game_framework.height // 5 + back_image.h  // 2)
+        retry_image.draw(game_framework.width // 2 + retry_image.w, game_framework.height // 5 + retry_image.h // 2)
     elif game_clear:
         background_gameclear.draw(game_framework.width//2, game_framework.height//2)
-        next_image.draw(game_framework.width - next_image.w // 2, game_framework.height - next_image.h // 2)
+        back_image.draw (game_framework.width // 2 - back_image.w, game_framework.height // 5 + back_image.h // 2)
+        next_image.draw(game_framework.width  // 2 + next_image.w, game_framework.height // 5 + next_image.h // 2)
        
     update_canvas()
 
@@ -311,19 +318,40 @@ def handle_events(frame_time):
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if game_play:
                 if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                       game_framework.width - pause_image.w // 2, game_framework.height - pause_image.h // 2,
+                                       game_framework.width - pause_image.w // 2 - 10, game_framework.height - pause_image.h // 2 - 10,
                                         pause_image.w, pause_image.h):
                     game_framework.push_state(pause_state)
-            if game_play or game_over:
-                if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                        back_image.w // 2, game_framework.height - back_image.h // 2,
+                    return;
+                elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                        back_image.w // 2 + 10, game_framework.height - back_image.h // 2 - 10,
                                         back_image.w, back_image.h):
                     game_framework.change_state(title_state)
+                    return;
+
+
+            if game_over:
+                if collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                        game_framework.width // 2 - back_image.w , game_framework.height // 5 + back_image.h  // 2,
+                                        back_image.w, back_image.h):
+                    game_framework.change_state(title_state)
+                    return;
+                elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                        game_framework.width // 2 + retry_image.w, game_framework.height // 5 + retry_image.h // 2,
+                                        retry_image.w, retry_image.h):
+                    game_framework.change_state(game_state_level_02)
+                    return;
+
             elif game_clear:
                 if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                       game_framework.width - next_image.w // 2, game_framework.height - next_image.h // 2,
+                                       game_framework.width // 2 - back_image.w, game_framework.height // 5 + back_image.h // 2,
+                                        back_image.w, back_image.h):
+                    game_framework.change_state(title_state)
+                    return;
+                elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                       game_framework.width // 2 + next_image.w, game_framework.height // 5 + next_image.h // 2,
                                         next_image.w, next_image.h):
                     game_framework.change_state(game_state_level_03)
+                    return;
 
 
 def pause():

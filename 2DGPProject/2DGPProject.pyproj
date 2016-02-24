@@ -112,6 +112,9 @@
     <Compile Include="title_state.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tutorial_state.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="warp_effect.py">
       <SubType>Code</SubType>
     </Compile>

@@ -2,6 +2,7 @@
 import pico2d
 from sdl2 import *
 from sdl2.sdlimage import *
+from sdl2.sdlttf import *
 import ctypes
 
 # for debugging draw
@@ -43,3 +44,31 @@ def set_color(r,g,b):
 
 def set_texture_color(texture, r, g, b):
     SDL_SetTextureColorMod(texture, r, g, b)
+
+
+class Font:
+    def __init__(self, name, size=20):
+        #print('font' + name + 'loaded')
+        self.font = TTF_OpenFont(name.encode('utf-8'), size)
+
+    def draw(self, x, y, str, color=(0,0,0)):
+        sdl_color = SDL_Color(color[0], color[1], color[2])
+        sdl_bgcolor = SDL_Color(50, 50, 50)
+        str = '   "' + str + '"   '
+        #print(str)
+        surface = TTF_RenderUTF8_Shaded(self.font, str.encode('utf-8'), sdl_color, sdl_bgcolor)
+        #surface = TTF_RenderUTF8_Blended(self.font, str.encode('utf-8'), sdl_color)
+        texture = SDL_CreateTextureFromSurface(pico2d.renderer, surface)
+        SDL_FreeSurface(surface)
+        image = pico2d.Image(texture)
+        if (x - image.w // 2 < 0):
+            x += (image.w // 2 - x)
+        elif (x + image.w //2 > pico2d.canvas_width):
+            x -= (image.w // 2 - (pico2d.canvas_width - x) )
+        
+        image.draw(x, y)
+
+        
+def load_font(name, size = 20):
+    font = Font(name, size)
+    return font

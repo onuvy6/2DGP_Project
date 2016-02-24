@@ -1,5 +1,6 @@
 ﻿import game_framework
 import game_state_level_01
+import tutorial_state
 import map_loader
 import collision
 
@@ -35,6 +36,9 @@ def enter():
     global game_start_image
     game_start_image = load_image('Resources/Images/GameStart.png')
 
+    global tutorial_image
+    tutorial_image = load_image('Resources/Images/Tutorial.png')
+
     global exit_image
     exit_image = load_image('Resources/Images/Exit.png')
 
@@ -67,10 +71,11 @@ def exit():
     global background_image
     del (background_image)
     
-    global game_start_image, exit_image
+    global game_start_image, exit_image, tutorial_image
     del (game_start_image)
     del (exit_image)
-
+    del (tutorial_image)
+    
     global map
     del (map)
 
@@ -144,8 +149,11 @@ def draw(frame_time):
     for cloud in clouds:
         cloud.draw()
 
+    
     game_start_image.draw(game_framework.width // 2, game_framework.height * 0.3)
-    exit_image.draw(game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2)
+    tutorial_image.draw(game_framework.width // 2, game_framework.height * 0.3 - game_start_image.h)
+
+    exit_image.draw(game_framework.width - exit_image.w // 2 - 10, game_framework.height - exit_image.h // 2 - 10)
 
     update_canvas()
 
@@ -158,11 +166,17 @@ def handle_events(frame_time):
 
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                    game_framework.width // 2 - game_start_image.w // 2, game_framework.height * 0.3 + game_start_image.h // 2,
+                                    game_framework.width // 2, game_framework.height * 0.3,
                                     game_start_image.w, game_start_image.h):
                 game_framework.change_state(game_state_level_01)
+      
             elif collision.point_in_rect(event.x, game_framework.height - event.y, \
-                                    game_framework.width - exit_image.w // 2, game_framework.height - exit_image.h // 2,
+                                    game_framework.width // 2, game_framework.height * 0.3 - game_start_image.h,
+                                    tutorial_image.w, tutorial_image.h):
+                game_framework.change_state(tutorial_state)
+
+            elif collision.point_in_rect(event.x, game_framework.height - event.y, \
+                                    game_framework.width - exit_image.w // 2 - 10, game_framework.height - exit_image.h // 2 - 10,
                                          exit_image.w, exit_image.h):
                 game_framework.quit()
 
